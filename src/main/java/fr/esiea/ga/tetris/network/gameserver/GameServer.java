@@ -12,8 +12,7 @@ public class GameServer {
 
 	ServerSocket serverSocket; // Socket du serveur
 	
-	BufferedReader in;	// Lecture
-	PrintWriter out;	// Ecriture
+	int connectedPlayers, maxPlayers = 2;
 	
 	final Scanner sc = new Scanner(System.in);	// Entrées
 	private Socket socket;	// Socket de connexion au client
@@ -23,19 +22,28 @@ public class GameServer {
 		socket = new Socket();
 		
 		try {
+			
 			serverSocket = new ServerSocket(port);	// On crée le serveur
 			System.out.println("System - Le serveur est créé au port "+port+".");
-			socket = serverSocket.accept();			// On accepte une connexion
-			System.out.println("System - Un client s'est connecté.");
 			
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintWriter (socket.getOutputStream());
-		
-			ServerReaderThread srt = new ServerReaderThread (socket,in,out);
-			ServerWriterThread swt = new ServerWriterThread(socket,out,sc);
+			while (connectedPlayers <= maxPlayers) {
 			
-			srt.start();	// On lance le thread d'écoute serveur
-			swt.start();	// On lance le thread d'écriture serveur
+				socket = serverSocket.accept();			// On accepte une connexion
+				connectedPlayers++;
+				
+				System.out.println("System - Un client s'est connecté.");
+				
+				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				PrintWriter out = new PrintWriter (socket.getOutputStream());
+			
+				ServerReaderThread srt = new ServerReaderThread (socket,in,out);
+				ServerWriterThread swt = new ServerWriterThread(socket,out,sc);
+				
+				srt.start();	// On lance le thread d'écoute serveur
+				swt.start();	// On lance le thread d'écriture serveur
+				
+			}
+			
 		}
 		catch (IOException e) {
 			System.out.println("Le serveur n'a pas pu être créé à ce numéro de port.");

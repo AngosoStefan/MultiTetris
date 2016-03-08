@@ -29,6 +29,7 @@ public class GameClient {
 	
 	public GameClient(String adr, int port) {
 		try {
+			
 			clientSocket = new Socket(adr,port);
 			System.out.println("System - Connexion établie");
 			
