@@ -14,22 +14,11 @@ public class GameClient {
 	
 	BufferedReader in;
 	PrintWriter out;
-	
-	int player = 0;
-	
-	public int getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(int player) {
-		this.player = player;
-	}
 
 	final Scanner sc = new Scanner(System.in);
 	
 	public GameClient(String adr, int port) {
 		try {
-					
 			clientSocket = new Socket(adr,port);
 			System.out.println("System - Connexion établie");
 			
@@ -43,7 +32,7 @@ public class GameClient {
 			new Thread(cwt).start();	// On lance le thread d'écriture
 			
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("Cet hôte est inconnu");
 		} catch (IOException e) {
 			System.out.println("Pas de serveur actif à cette adresse et/ou port.");
 		}
