@@ -29,17 +29,18 @@ public class GameClient {
 	
 	public GameClient(String adr, int port) {
 		try {
+					
 			clientSocket = new Socket(adr,port);
 			System.out.println("System - Connexion établie");
 			
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			out = new PrintWriter(clientSocket.getOutputStream());
 			
-			ClientReaderThread crt = new ClientReaderThread (clientSocket,in,out);
-			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out,sc);
+			ClientReaderThread crt = new ClientReaderThread (clientSocket,in);
+			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out);
 			
-			crt.start();	// On lance le thread d'écoute
-			cwt.start();	// On lance le thread d'écriture
+			new Thread(crt).start();	// On lance le thread d'écoute
+			new Thread(cwt).start();	// On lance le thread d'écriture
 			
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
