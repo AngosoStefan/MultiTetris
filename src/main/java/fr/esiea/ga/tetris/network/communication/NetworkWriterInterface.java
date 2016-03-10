@@ -7,4 +7,5 @@ import java.net.Socket;
 public interface NetworkWriterInterface {
 
 	public void writeSocketOuput (Socket socket, PrintWriter out) throws IOException;
+	
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class GameServer {
 
 	ServerSocket serverSocket; // Socket du serveur
-	Socket[] socketArray;
+	//Socket[] socketArray;
 	
 	int connectedPlayers, maxPlayers = 2;
 	
@@ -38,7 +38,7 @@ public class GameServer {
 				PrintWriter out = new PrintWriter (socket.getOutputStream());
 			
 				ServerReaderThread srt = new ServerReaderThread (socket,in);
-				ServerWriterThread swt = new ServerWriterThread(socket,out);
+				ServerWriterThread swt = new ServerWriterThread (socket,out);
 				
 				new Thread(srt).start();	// On lance le thread d'écoute serveur
 				new Thread(swt).start();	// On lance le thread d'écriture serveur

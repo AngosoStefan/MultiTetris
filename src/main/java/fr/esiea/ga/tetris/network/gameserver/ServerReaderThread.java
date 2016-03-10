@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import fr.esiea.ga.tetris.network.communication.NetworkReaderInterface;
+import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
 public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 
@@ -40,7 +42,9 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 		while(msg != null && !msg.equals("quit")){			// Si le client se déconnecte
 			System.out.println("Client : "+msg);
 			msg = in.readLine();
+			
 		}
+		
 	}
 
 	

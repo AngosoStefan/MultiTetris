@@ -33,6 +33,7 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 			System.out.println("Serveur : "+msg);
 			msg = in.readLine();
 		}
+		
 	}
 	
 	public void closeStreams(Socket socket, BufferedReader in, PrintWriter out) throws IOException {

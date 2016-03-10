@@ -19,13 +19,13 @@ public class GameClient {
 	
 	public GameClient(String adr, int port) {
 		try {
-			clientSocket = new Socket(adr,port);
+			clientSocket = new Socket(adr,port);		// On tente de se connecter au serveur
 			System.out.println("System - Connexion établie");
 			
-			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));	// On récupère les flux d'entrée et sortie
 			out = new PrintWriter(clientSocket.getOutputStream());
 			
-			ClientReaderThread crt = new ClientReaderThread (clientSocket,in);
+			ClientReaderThread crt = new ClientReaderThread (clientSocket,in);	// On lance les threads de lecture et d'écriture
 			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out);
 			
 			new Thread(crt).start();	// On lance le thread d'écoute
