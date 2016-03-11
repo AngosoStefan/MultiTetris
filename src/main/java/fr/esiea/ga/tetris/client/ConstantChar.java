@@ -1,0 +1,15 @@
+package fr.esiea.ga.tetris.client;
+
+public interface ConstantChar {
+	// http://unicode-table.com/en/#control-character
+	public final String CORNER_TOP_LEFT 	= "\u2554"; // ╔
+	public final String CORNER_TOP_RIGHT	= "\u2557"; // ╗
+	public final String CORNER_BOTTOM_LEFT 	= "\u255A"; // ╚
+	public final String CORNER_BOTTOM_RIGHT	= "\u255D"; // ╝
+	public final String COLUMN				= "\u2551"; // ║
+	public final String ROW					= "\u2550"; // ═
+	public final String ROW_UNDER			= "\u2566"; // ╦
+	public final String ROW_ABOVE			= "\u2569"; // ╩
+	public final String CROSS				= "\u256C"; // ╬
+	public final String CHECK_MARK			= "\u2713"; // ✓
+}
