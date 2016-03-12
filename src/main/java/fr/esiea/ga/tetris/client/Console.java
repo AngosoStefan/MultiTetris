@@ -34,6 +34,7 @@ package fr.esiea.ga.tetris.client;
 */
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 /**
 The Console is a simple interface for keyboard input and screen output.
@@ -120,6 +121,23 @@ the results on the monitor.
 			}
 		}
 		System.out.println(line);
+	}
+	
+	public void printScreen (boolean animated)
+	{
+		for (int row = 0; row < ROWS; row++) {
+			for (int col=0; col<COLS; col++) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(1);
+					if (col == COLS)
+						System.out.print("\n");
+					else
+						System.out.print(screen[row][col]);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 /**
