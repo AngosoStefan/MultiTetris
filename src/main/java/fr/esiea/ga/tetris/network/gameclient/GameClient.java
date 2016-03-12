@@ -14,36 +14,25 @@ public class GameClient {
 	
 	BufferedReader in;
 	PrintWriter out;
-	
-	int player = 0;
-	
-	public int getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(int player) {
-		this.player = player;
-	}
 
 	final Scanner sc = new Scanner(System.in);
 	
 	public GameClient(String adr, int port) {
 		try {
-			
-			clientSocket = new Socket(adr,port);
+			clientSocket = new Socket(adr,port);		// On tente de se connecter au serveur
 			System.out.println("System - Connexion établie");
 			
-			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));	// On récupère les flux d'entrée et sortie
 			out = new PrintWriter(clientSocket.getOutputStream());
 			
-			ClientReaderThread crt = new ClientReaderThread (clientSocket,in,out);
-			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out,sc);
+			ClientReaderThread crt = new ClientReaderThread (clientSocket,in);	// On lance les threads de lecture et d'écriture
+			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out);
 			
-			crt.start();	// On lance le thread d'écoute
-			cwt.start();	// On lance le thread d'écriture
+			new Thread(crt).start();	// On lance le thread d'écoute
+			new Thread(cwt).start();	// On lance le thread d'écriture
 			
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("Cet hôte est inconnu");
 		} catch (IOException e) {
 			System.out.println("Pas de serveur actif à cette adresse et/ou port.");
 		}

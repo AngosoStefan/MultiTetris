@@ -2,37 +2,51 @@ package fr.esiea.ga.tetris.network.gameserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
 
-public class ServerReaderThread extends Thread{
+import fr.esiea.ga.tetris.network.communication.NetworkReaderInterface;
+import fr.esiea.ga.tetris.network.communication.ReaderCloser;
+import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
-	String msg;
-	BufferedReader in;
-	PrintWriter out;
-	Socket socket;
+public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 
-	public ServerReaderThread (Socket socket,BufferedReader in, PrintWriter out) {
+	private BufferedReader in;
+	private Socket socket;
+	private String msg;
+	private ArrayBlockingQueue<NetworkMessage> sharedMsgList;
+
+	
+	public ServerReaderThread (Socket socket,BufferedReader in, ArrayBlockingQueue<NetworkMessage> sharedMsgList) {
 		this.in = in; 
-		this.out = out;
 		this.socket = socket;
+		this.sharedMsgList = sharedMsgList;
+		msg = new String("0,0");
 	}
 
-	@Override
+
+	/* Methode run du thread */
+
 	public void run() {
-		try {
-			msg = in.readLine();
-			while(msg != null && !msg.equals("quit")){			// Si le client se déconnecte
-				System.out.println("Client : "+msg);
+		readSocketInput();
+		ReaderCloser.closeStreams(socket,in);
+	}
+
+
+	/* Lit le flux en entrée */
+
+	public void readSocketInput() {
+		while(msg != null && !msg.equals("quit")){			// Si le client se déconnecte
+			System.out.println("Client : "+msg);
+			try {
 				msg = in.readLine();
+			} catch (IOException e) {
+				System.out.println("System - Problème de communication Client-Serveur");
 			}
-			out.close();
-			socket.close();
-			System.out.println("System - Connexion fermée côté serveur");
-		} catch (IOException e) {
-			System.out.println("Problème de communication Serveur-Client");
+			sharedMsgList.add(NetworkMessage.strToNM(msg));
 		}
 
 	}
+
 
 }

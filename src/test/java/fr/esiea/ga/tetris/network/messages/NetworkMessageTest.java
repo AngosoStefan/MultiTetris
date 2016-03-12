@@ -1,9 +1,6 @@
 package fr.esiea.ga.tetris.network.messages;
 
-import static org.junit.Assert.*;
-import fr.esiea.ga.tetris.network.messages.NetworkMessage;
-
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 

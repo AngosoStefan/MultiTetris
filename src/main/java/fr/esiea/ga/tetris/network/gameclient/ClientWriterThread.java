@@ -1,29 +1,58 @@
 package fr.esiea.ga.tetris.network.gameclient;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
 
-public class ClientWriterThread extends Thread {
+import fr.esiea.ga.tetris.network.communication.NetworkWriterInterface;
 
-	String msg;
-	Socket socket;
-	PrintWriter out;
-	Scanner sc;
+public class ClientWriterThread implements Runnable, NetworkWriterInterface {
+
+	private Socket socket;
+	private PrintWriter out;
+	private String msg;
 	
-	public ClientWriterThread (Socket socket, PrintWriter out, Scanner sc) {
+	
+	public ClientWriterThread (Socket socket, PrintWriter out) {
 		this.socket = socket;
 		this.out = out;
-		this.sc = sc;
+		msg = new String("0,0");
 	}
-   
-	@Override
-   public void run() {
-	   while(true){
-		   msg = sc.nextLine();
-		   out.println(msg);
-		   out.flush();
-	   }
-   }
+
 	
+	/* Methode run du thread */
+
+	public void run() {
+		writeSocketOuput();
+		closeStreams();
+	}
+
+	
+	/* Ecrit dans le flux de sortie */
+
+	public void writeSocketOuput() {
+		while(true){
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			out.println(msg);
+			out.flush();
+		}
+	}
+
+	
+	/* Ferme les flux de sortie */
+
+	public void closeStreams() {
+		try {
+			out.close();
+			socket.close();
+		} catch (IOException e) {
+			System.out.println("System - Problème de fermeture des flux");
+		}
+		System.out.println("System - Connexion fermée côté client");
+	}
+
 }
