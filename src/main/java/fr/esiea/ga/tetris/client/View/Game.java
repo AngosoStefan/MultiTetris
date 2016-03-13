@@ -1,8 +1,27 @@
 package fr.esiea.ga.tetris.client.View;
 
 import fr.esiea.ga.tetris.client.Model.ConstantChar;
+import fr.esiea.ga.tetris.client.Model.Piece;
 
 public class Game implements ConstantChar {
+	
+	public static void printPiece(Console c, Piece p) {
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (p.pieceContent[row][col] == 1)
+					c.putStringAt(p.pieceChar, row+p.xPos, col+p.yPos);
+//				else
+//					c.putStringAt("0", row+p.xPos, col+p.yPos);
+			}
+		}
+	}
+	
+	public static void hidePrevPiecePos(Console c, Piece p) {
+		for (int i = 0; i < 4; i++) {
+			c.putStringAt("    ", (i+p.xPrevPos), p.yPrevPos);
+		}
+	}
+	
 	public static void hideRawCursor(Console c) {
 		// Good row but didn't work
 		c.putStringAt("   ", 23, 0);
