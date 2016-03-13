@@ -17,34 +17,41 @@ public class Piece {
 		printSysouPiece(test);
 		System.out.println();
 		test.pieceContent = rotatePieceRight(test);
-//		printSysouPiece(test);
+		printSysouPiece(test);
+		System.out.println();
+		test.pieceContent = rotatePieceRight(test);
+		printSysouPiece(test);
+		System.out.println();
+		test.pieceContent = rotatePieceRight(test);
+		printSysouPiece(test);
+		System.out.println();
+	}
+	
+	public static int[][] rotatePieceLeft(Piece p) {
+		int[][] pieceRotated = new int[4][4];
+		int rowRotate = 0;
+		
+		for (int col = 3; col >= 0; col--) {
+			for (int row = 0; row < 4; row++) {
+				pieceRotated[rowRotate][row] = p.pieceContent[row][col];
+			}
+			rowRotate++;
+		}
+		
+		return pieceRotated;
 	}
 	
 	public static int[][] rotatePieceRight(Piece p) {
 		int[][] pieceRotated = new int[4][4];
-		int[] rowTmp = new int[4];
+		int rowRotate = 0;
 		
-		for (int col = 0; col < 4; col++) {
-			for (int row = 0; row < 4; row++) {
-				rowTmp[row] = p.pieceContent[row][col];
-//				System.out.print(String.valueOf(rowTmp[row]));
-			}
-//			pieceRotated[col] = rowTmp.clone();
-			if (col == 0)
-				pieceRotated[3] = rowTmp.clone();
-			else
-				pieceRotated[col-1] = rowTmp.clone();
-		}
-		
-		for (int row = 0; row < 4; row++) {
+		for (int row = 3; row >= 0; row--) {
 			for (int col = 0; col < 4; col++) {
-				if (pieceRotated[row][col] == 1)
-					System.out.print(p.pieceChar + " ");
-				else
-					System.out.print(String.valueOf(pieceRotated[row][col] + " "));
+				pieceRotated[col][rowRotate] = p.pieceContent[row][col];
 			}
-			System.out.println();
+			rowRotate++;
 		}
+		
 		return pieceRotated;
 	}
 	
