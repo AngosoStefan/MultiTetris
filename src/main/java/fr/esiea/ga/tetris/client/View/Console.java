@@ -1,4 +1,4 @@
-package fr.esiea.ga.tetris.client;
+package fr.esiea.ga.tetris.client.View;
 /*
     Console.java
 
