@@ -10,8 +10,8 @@ public class Game implements ConstantChar {
 			for (int col = 0; col < 4; col++) {
 				if (p.pieceContent[row][col] == 1)
 					c.putStringAt(p.pieceChar, row+p.xPos, col+p.yPos);
-//				else
-//					c.putStringAt("0", row+p.xPos, col+p.yPos);
+				else
+					c.putStringAt("0", row+p.xPos, col+p.yPos);
 			}
 		}
 	}

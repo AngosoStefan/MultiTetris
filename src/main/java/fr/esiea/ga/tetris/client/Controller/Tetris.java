@@ -86,7 +86,7 @@ public class Tetris implements ConstantInput, ConstantChar {
 	}
 	
 	// Handle input related to the arrow cursor
-	public int makeChoice() {
+	public static int makeChoice() {
 		int charCode = -2;
 		try {
 			charCode = RawConsoleInput.read(true);
