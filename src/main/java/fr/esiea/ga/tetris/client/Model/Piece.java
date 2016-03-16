@@ -12,7 +12,8 @@ public class Piece {
 	public int xPos, xPrevPos, yPos, yPrevPos;
 
 	public Piece() {
-		pieceType = PieceType.randomPiece();
+		// pieceType = PieceType.randomPiece();
+		pieceType = PieceType.PIECE3;
 		pieceContent = pieceType.blockContent;
 		pieceChar = pieceType.blockID;
 		xPrevPos = xPos = 0;
@@ -22,34 +23,31 @@ public class Piece {
 	public void update(int direction) {
 		switch (direction) {
 		case (Piece.DIR_BOTTOM):
-			movePieceDown();
+			savePrevPosPiece();
+			xPos++;
 			break;
 		case (Piece.DIR_RIGHT):
-			xPrevPos = xPos;
-			yPrevPos = yPos;
+			savePrevPosPiece();
 			yPos++;
-			movePieceDown();
 			break;
 		case (Piece.DIR_LEFT):
-			xPrevPos = xPos;
-			yPrevPos = yPos;
+			savePrevPosPiece();
 			yPos--;
-			movePieceDown();
 			break;
 		case (Piece.DIR_TOP):
+			savePrevPosPiece();
 			rotatePieceLeft();
-			movePieceDown();
 			break;
 		default:
-			movePieceDown();
+			savePrevPosPiece();
+			xPos++;
 			break;
 		}
 	}
-
-	public void movePieceDown() {
+	
+	private void savePrevPosPiece() {
 		xPrevPos = xPos;
 		yPrevPos = yPos;
-		xPos++;
 	}
 
 	/*
@@ -65,25 +63,23 @@ public class Piece {
 			}
 			rowRotate++;
 		}
-
 		pieceContent = pieceRotated.clone();
 	}
 
-	public static int[][] rotatePieceRight(Piece p) {
+	public void rotatePieceRight() {
 		int[][] pieceRotated = new int[4][4];
 		int rowRotate = 0;
 
 		for (int row = 3; row >= 0; row--) {
 			for (int col = 0; col < 4; col++) {
-				pieceRotated[col][rowRotate] = p.pieceContent[row][col];
+				pieceRotated[col][rowRotate] = pieceContent[row][col];
 			}
 			rowRotate++;
 		}
-
-		return pieceRotated;
+		pieceContent = pieceRotated.clone();
 	}
 	
-	public static int getPieceBorderIndex(Piece p, int direction) {
+	public int getPieceBorderIndex(int direction) {
 		int i;
 		boolean flag = false;
 		
@@ -92,7 +88,7 @@ public class Piece {
 			i = 3;
 			while(i != -1) {
 				for (int j = 0; j < 4; j++) {
-					if (p.pieceContent[j][i] == 1)
+					if (pieceContent[j][i] == 1)
 						flag = true;
 				}
 				if (flag) return i;
@@ -103,7 +99,7 @@ public class Piece {
 			i = 3;
 			while(i != -1) {
 				for (int j = 0; j < 4; j++) {
-					if (p.pieceContent[i][j] == 1)
+					if (pieceContent[i][j] == 1)
 						flag = true;
 				}
 				if (flag) return i;
@@ -114,7 +110,7 @@ public class Piece {
 			i = 0;
 			while(i != 4) {
 				for (int j = 0; j < 4; j++) {
-					if (p.pieceContent[j][i] == 1)
+					if (pieceContent[j][i] == 1)
 						flag = true;
 				}
 				if (flag) return i;

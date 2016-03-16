@@ -10,15 +10,46 @@ public class Game implements ConstantChar {
 			for (int col = 0; col < 4; col++) {
 				if (p.pieceContent[row][col] == 1)
 					c.putStringAt(p.pieceChar, row+p.xPos, col+p.yPos);
-				else
-					c.putStringAt("0", row+p.xPos, col+p.yPos);
+//				else
+//					c.putStringAt("0", row+p.xPos, col+p.yPos);
 			}
 		}
 	}
 	
-	public static void hidePrevPiecePos(Console c, Piece p) {
-		for (int i = 0; i < 4; i++) {
-			c.putStringAt("    ", (i+p.xPrevPos), p.yPrevPos);
+	public static void printPieceDBG(Console c, Piece p) {
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (p.pieceContent[row][col] == 1)
+					c.putStringAt("1", row+p.xPos, col+p.yPos+26);
+//				else
+//					c.putStringAt("0", row+p.xPos, col+p.yPos+26);
+			}
+		}
+	}
+	
+	public static void hidePrevPiecePos(Console c, Piece p, boolean top) {
+		Piece pCopy = p;
+		
+		if (top)
+			pCopy.rotatePieceRight();
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (pCopy.pieceContent[row][col] == 1)
+					c.putStringAt(" ", row+pCopy.xPrevPos, col+pCopy.yPrevPos);
+			}
+		}
+	}
+	
+	public static void hidePrevPiecePosDBG(Console c, Piece p, boolean top) {
+		Piece pCopy = p;
+		
+		if (top)
+			pCopy.rotatePieceRight();
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (pCopy.pieceContent[row][col] == 1)
+					c.putStringAt(" ", row+pCopy.xPrevPos, col+pCopy.yPrevPos+26);
+			}
 		}
 	}
 	

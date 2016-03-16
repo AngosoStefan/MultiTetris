@@ -13,6 +13,8 @@ public class SoloGame implements Runnable, ConstantInput {
 	Console c;
 	Area map;
 	Piece currentPiece;
+	Piece dbgPiece;
+	boolean pieceDie = false;
 	int currentInput = -2;
 	long start;
 
@@ -25,52 +27,71 @@ public class SoloGame implements Runnable, ConstantInput {
 	}
 
 	public void run() {
+		boolean test = false;
 		while (currentInput != TOUCH_EXIT) {
+			// DBG PURPOSE
+			dbgPiece = currentPiece;
+
 			Game.printArea(c, Area.MAP_ROW, Area.MAP_COL, 0, 0);
-			
-			Game.hidePrevPiecePos(c, currentPiece);
+			if (test) map.printMapDbg(c);
+
 			Game.printPiece(c, currentPiece);
+			if (test) Game.printPieceDBG(c, dbgPiece);
+
 			Game.printTime(c, start);
-			// Game.printArea(c, Area.MAP_ROW, Area.MAP_COL, 0, 0);
-			// Check si printPiece possible
-			// Si oui
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(175);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 			currentInput = makeMove();
 			switch (currentInput) {
 			case (TOUCH_TOP):
 				currentPiece.update(Piece.DIR_TOP);
 				break;
 			case (TOUCH_RIGHT):
-				if (!map.detectedBorderCollision(Piece.DIR_RIGHT, currentPiece,c))
+				if (!map.detecteCollision(Piece.DIR_RIGHT, currentPiece)) {
 					currentPiece.update(Piece.DIR_RIGHT);
-				else
+				}
+				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
 					currentPiece.update(Piece.DIR_BOTTOM);
+				} else {
+					pieceDie = true;
+				}
 				break;
 			case (TOUCH_LEFT):
 				currentPiece.update(Piece.DIR_LEFT);
 				break;
 			default:
-				if (!map.detectedBorderCollision(Piece.DIR_BOTTOM, currentPiece,c))
+				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
 					currentPiece.update(Piece.DIR_BOTTOM);
-				else {
-					// End life Piece
-					
-					currentPiece = new Piece();
+				} else {
+					pieceDie = true;
 				}
-					
 				break;
+			}
+			if (pieceDie) {
+				map.updateArea(currentPiece);
+				currentPiece = new Piece();
+				pieceDie = false;
+				test = true;
 			}
 
 			c.printScreen();
-			Game.hideRawCursor(c); // Marche un peu
-			// DBG
-						map.printMapDbg(c,currentPiece);
+			// Specific case if rotation
+			if (currentInput == TOUCH_TOP) {
+				Game.hidePrevPiecePos(c, currentPiece, true);
+				Game.hidePrevPiecePosDBG(c, dbgPiece, true);
+			} else {
+				Game.hidePrevPiecePos(c, currentPiece, false);
+				Game.hidePrevPiecePosDBG(c, dbgPiece, false);
+			}
+
+			Game.hideRawCursor(c); // Do not work perfectly
 		}
-//		c.clearScreen();
+		// c.clearScreen();
 	}
 
 	// Handle input related to the arrow cursor
@@ -83,7 +104,7 @@ public class SoloGame implements Runnable, ConstantInput {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		System.out.println(String.valueOf(charCode));
+		// System.out.println(String.valueOf(charCode));
 		switch (charCode) {
 		case TOUCH_TOP:
 			return TOUCH_TOP;
