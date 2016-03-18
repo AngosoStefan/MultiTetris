@@ -27,7 +27,7 @@ public class SoloGame implements Runnable, ConstantInput {
 	}
 
 	public void run() {
-		boolean test = false;
+		boolean test = true;
 		while (currentInput != TOUCH_EXIT) {
 			// DBG PURPOSE
 			dbgPiece = currentPiece;
@@ -37,6 +37,8 @@ public class SoloGame implements Runnable, ConstantInput {
 
 			Game.printPiece(c, currentPiece);
 			if (test) Game.printPieceDBG(c, dbgPiece);
+			
+			if(test) Game.printInfoDBG(c, currentPiece);
 
 			Game.printTime(c, start);
 
@@ -62,7 +64,14 @@ public class SoloGame implements Runnable, ConstantInput {
 				}
 				break;
 			case (TOUCH_LEFT):
-				currentPiece.update(Piece.DIR_LEFT);
+				if (!map.detecteCollision(Piece.DIR_LEFT, currentPiece)) {
+					currentPiece.update(Piece.DIR_LEFT);
+				}
+				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+					currentPiece.update(Piece.DIR_BOTTOM);
+				} else {
+					pieceDie = true;
+				}
 				break;
 			default:
 				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
@@ -78,7 +87,7 @@ public class SoloGame implements Runnable, ConstantInput {
 				pieceDie = false;
 				test = true;
 			}
-
+			
 			c.printScreen();
 			// Specific case if rotation
 			if (currentInput == TOUCH_TOP) {

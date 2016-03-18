@@ -26,6 +26,15 @@ public class Game implements ConstantChar {
 			}
 		}
 	}
+
+	public static void printInfoDBG(Console c, Piece p) {
+		c.putStringAt("xPrevPos : " + String.valueOf(p.xPrevPos), 0, 48);
+		c.putStringAt("yPrevPos : " + String.valueOf(p.yPrevPos), 1, 48);
+		c.putStringAt("xPos : " + String.valueOf(p.xPos), 2, 48);
+		c.putStringAt("yPos : " + String.valueOf(p.yPos), 3, 48);
+		c.putStringAt("IndexLeft : " + String.valueOf(p.getPieceBorderIndex(Piece.DIR_LEFT)), 4, 48);
+		c.putStringAt("IndexRight : " + String.valueOf(p.getPieceBorderIndex(Piece.DIR_RIGHT)), 5, 48);
+	}
 	
 	public static void hidePrevPiecePos(Console c, Piece p, boolean top) {
 		Piece pCopy = p;
