@@ -39,8 +39,8 @@ public class Piece {
 			rotatePieceLeft();
 			break;
 		default:
-			savePrevPosPiece();
-			xPos++;
+//			savePrevPosPiece();
+//			xPos++;
 			break;
 		}
 	}
@@ -79,10 +79,10 @@ public class Piece {
 		pieceContent = pieceRotated.clone();
 	}
 	
-	public int getPieceBorderIndex(int direction) {
+	public int getLastBorderIndex(int direction) {
 		int i;
 		boolean flag = false;
-		
+		// We are looking for index not empty DEPENDING ON piece direction
 		switch (direction) {
 		case Piece.DIR_RIGHT:
 			i = 3;

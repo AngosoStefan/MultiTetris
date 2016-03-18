@@ -46,30 +46,30 @@ public class Area {
 	}
 
 	public boolean detecteCollision(int direction, Piece p) {
-		int indexBorder;
+		int lastBorderIndex;
 		int xTmp, yTmp;
 
 		switch (direction) {
 		case Piece.DIR_RIGHT:
-			indexBorder = p.getPieceBorderIndex(Piece.DIR_RIGHT);
+			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_RIGHT);
 			for (int row = 0; row < 4; row++) {
-				if ((p.pieceContent[row][indexBorder] == 1) && (area[p.xPos][p.yPos + indexBorder + 1] == 1)) {
+				if ((p.pieceContent[row][lastBorderIndex] == 1) && (area[p.xPos + row][p.yPos + lastBorderIndex + 1] == 1)) {
 					return true;
 				}
 			}
 			return false;
 		case Piece.DIR_BOTTOM:
-			indexBorder = p.getPieceBorderIndex(Piece.DIR_BOTTOM);
+			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_BOTTOM);
 			for (int col = 0; col < 4; col++) {
-				if ((p.pieceContent[indexBorder][col] == 1) && (area[p.xPos + indexBorder + 1][p.yPos + col] == 1)) {
+				if ((p.pieceContent[lastBorderIndex][col] == 1) && (area[p.xPos + lastBorderIndex + 1][p.yPos + col] == 1)) {
 					return true;
 				}
 			}
 			return false;
 		case Piece.DIR_LEFT:
-			indexBorder = p.getPieceBorderIndex(Piece.DIR_LEFT);
+			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_LEFT);
 			for (int row = 0; row < 4; row++) {
-				if ((p.pieceContent[row][indexBorder] == 1) && (area[p.xPos][p.yPos + indexBorder - 1] == 1)) {
+				if ((p.pieceContent[row][lastBorderIndex] == 1) && (area[p.xPos + row][p.yPos + lastBorderIndex - 1] == 1)) {
 					return true;
 				}
 			}

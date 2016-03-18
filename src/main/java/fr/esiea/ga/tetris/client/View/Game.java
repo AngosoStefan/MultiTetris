@@ -11,7 +11,7 @@ public class Game implements ConstantChar {
 				if (p.pieceContent[row][col] == 1)
 					c.putStringAt(p.pieceChar, row+p.xPos, col+p.yPos);
 //				else
-//					c.putStringAt("0", row+p.xPos, col+p.yPos);
+//					c.putStringAt("2", row+p.xPos, col+p.yPos);
 			}
 		}
 	}
@@ -21,8 +21,8 @@ public class Game implements ConstantChar {
 			for (int col = 0; col < 4; col++) {
 				if (p.pieceContent[row][col] == 1)
 					c.putStringAt("1", row+p.xPos, col+p.yPos+26);
-//				else
-//					c.putStringAt("0", row+p.xPos, col+p.yPos+26);
+				else
+					c.putStringAt("2", row+p.xPos, col+p.yPos+26);
 			}
 		}
 	}
@@ -32,8 +32,13 @@ public class Game implements ConstantChar {
 		c.putStringAt("yPrevPos : " + String.valueOf(p.yPrevPos), 1, 48);
 		c.putStringAt("xPos : " + String.valueOf(p.xPos), 2, 48);
 		c.putStringAt("yPos : " + String.valueOf(p.yPos), 3, 48);
-		c.putStringAt("IndexLeft : " + String.valueOf(p.getPieceBorderIndex(Piece.DIR_LEFT)), 4, 48);
-		c.putStringAt("IndexRight : " + String.valueOf(p.getPieceBorderIndex(Piece.DIR_RIGHT)), 5, 48);
+		c.putStringAt("IndexLeft : " + String.valueOf(p.getLastBorderIndex(Piece.DIR_LEFT)), 4, 48);
+		c.putStringAt("IndexRight : " + String.valueOf(p.getLastBorderIndex(Piece.DIR_RIGHT)), 5, 48);
+	}
+	public static void hidePrintInfoDBG(Console c) {
+		for (int i = 0; i < 6; i++) {
+			c.putStringAt("             ", i, 48);
+		}
 	}
 	
 	public static void hidePrevPiecePos(Console c, Piece p, boolean top) {

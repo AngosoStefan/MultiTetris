@@ -51,34 +51,41 @@ public class SoloGame implements Runnable, ConstantInput {
 			currentInput = makeMove();
 			switch (currentInput) {
 			case (TOUCH_TOP):
-				currentPiece.update(Piece.DIR_TOP);
+//				currentPiece.update(Piece.DIR_TOP);
+				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+					currentPiece.update(Piece.DIR_BOTTOM);
+				}
+				else {
+					pieceDie = true;
+				}
 				break;
 			case (TOUCH_RIGHT):
 				if (!map.detecteCollision(Piece.DIR_RIGHT, currentPiece)) {
 					currentPiece.update(Piece.DIR_RIGHT);
 				}
-				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-					currentPiece.update(Piece.DIR_BOTTOM);
-				} else {
-					pieceDie = true;
-				}
+//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+//					currentPiece.update(Piece.DIR_BOTTOM);
+//				} 
+//				else {
+//					pieceDie = true;
+//				}
 				break;
 			case (TOUCH_LEFT):
 				if (!map.detecteCollision(Piece.DIR_LEFT, currentPiece)) {
 					currentPiece.update(Piece.DIR_LEFT);
 				}
-				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-					currentPiece.update(Piece.DIR_BOTTOM);
-				} else {
-					pieceDie = true;
-				}
+//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+//					currentPiece.update(Piece.DIR_BOTTOM);
+//				} else {
+//					pieceDie = true;
+//				}
 				break;
 			default:
-				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-					currentPiece.update(Piece.DIR_BOTTOM);
-				} else {
-					pieceDie = true;
-				}
+//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+//					currentPiece.update(Piece.DIR_BOTTOM);
+//				} else {
+//					pieceDie = true;
+//				}
 				break;
 			}
 			if (pieceDie) {
@@ -90,14 +97,14 @@ public class SoloGame implements Runnable, ConstantInput {
 			
 			c.printScreen();
 			// Specific case if rotation
-			if (currentInput == TOUCH_TOP) {
-				Game.hidePrevPiecePos(c, currentPiece, true);
-				Game.hidePrevPiecePosDBG(c, dbgPiece, true);
-			} else {
+//			if (currentInput == TOUCH_TOP) {
+//				Game.hidePrevPiecePos(c, currentPiece, true);
+//				Game.hidePrevPiecePosDBG(c, dbgPiece, true);
+//			} else {
 				Game.hidePrevPiecePos(c, currentPiece, false);
 				Game.hidePrevPiecePosDBG(c, dbgPiece, false);
-			}
-
+//			}
+			if (test) Game.hidePrintInfoDBG(c);
 			Game.hideRawCursor(c); // Do not work perfectly
 		}
 		// c.clearScreen();
