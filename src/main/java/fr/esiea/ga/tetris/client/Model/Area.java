@@ -1,9 +1,10 @@
 package fr.esiea.ga.tetris.client.Model;
 
+import fr.esiea.ga.tetris.client.View.Console;
+
 public class Area implements ConstantGame {
 	private int map_row_backend, map_col_backend;
 	public int[][] area;
-	public String[][] area2;
 
 	private static Area map = null;
 
@@ -11,7 +12,6 @@ public class Area implements ConstantGame {
 		map_row_backend = MAP_ROW + 1;
 		map_col_backend = MAP_COL + 1;
 		area = new int[map_row_backend][map_col_backend];
-		area2 = new String[map_row_backend][map_col_backend];
 		initAreaBorder();
 	}
 
@@ -40,15 +40,34 @@ public class Area implements ConstantGame {
 					area[p.xPos + row][p.yPos + col] = 1;
 			}
 		}
-		for (int row = 0; row < 4; row++) {
-			for (int col = 0; col < 4; col++) {
-				if (p.pieceContent[row][col] == 1)
-					area2[p.xPos + row][p.yPos + col] = p.pieceType.blockID;
+	}
+
+	public int detectFullRow() {
+		boolean fullRow = true;
+		for (int row = 1; row < MAP_ROW; row++) {
+			for (int col = 1; col < MAP_COL; col++) {
+				if (area[row][col] == 0) {
+					fullRow = false;
+				}
+			}
+			if (fullRow)
+				return row;
+			else
+				fullRow = true;
+		}
+		return 0;
+	}
+
+	public void deleteFullRow(Console c, int indexRowToDelete) {
+		for (int row = indexRowToDelete; row > 1; row--) {
+			for (int col = 1; col < MAP_COL; col++) {
+				 c.putCharAt(c.getCharAt(row - 1, col), row, col);
+				 area[row][col] = area[row-1][col];
 			}
 		}
 	}
 
-	public synchronized boolean detecteCollision(int direction, Piece p) {
+	public boolean detecteCollision(int direction, Piece p) {
 		int lastBorderIndex;
 		int xTmp, yTmp;
 
@@ -86,11 +105,10 @@ public class Area implements ConstantGame {
 			pCopy.yPos = p.yPos;
 			pCopy.pieceContent = p.pieceContent;
 			pCopy.rotatePieceLeft();
-			
+
 			for (int col = 0; col < 4; col++) {
 				for (int row = 0; row < 4; row++) {
-					if ((pCopy.pieceContent[row][col] == 1)
-							&& (area[pCopy.xPos + row][pCopy.yPos + col] == 1)) {
+					if ((pCopy.pieceContent[row][col] == 1) && (area[pCopy.xPos + row][pCopy.yPos + col] == 1)) {
 						return true;
 					}
 				}

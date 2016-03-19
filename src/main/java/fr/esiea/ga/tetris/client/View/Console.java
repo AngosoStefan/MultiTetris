@@ -67,6 +67,10 @@ public class Console {
 	private static char[][] screen;
 	private static int cursorRow = 0;
 	private static int cursorCol = 0;
+	
+	public char getCharAt(int row, int col) {
+		return screen[row][col];
+	}
 
 /**
 Constructing a Console device creates a screen, 24 rows by 80 columns

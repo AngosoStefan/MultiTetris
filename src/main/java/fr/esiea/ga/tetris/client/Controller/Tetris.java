@@ -15,43 +15,43 @@ public class Tetris implements ConstantInput, ConstantChar {
 
 		Console c = new Console();
 
-//		Menu.printLogo(c);
-//		c.putStringAt("Press Enter", 12, 31);
-//		c.printScreen(true);
-//		pressEnter(true);
-//		c.clearScreen();
+		Menu.printLogo(c);
+		c.putStringAt("Press Enter", 12, 31);
+		c.printScreen(true);
+		pressEnter(true);
+		c.clearScreen();
 
 		/********
 		 * MENU *
 		 ********/
 
-//		while (currentInput != EXIT) {
-//			do {
-//				Menu.printLogo(c);
-//				Menu.printMenu(c, 8, 40);
-//				currentInput = Menu.printCursor(c, currentInput);
-//				c.printScreen();
-//
-//				choice = makeChoice();
-//				switch (choice) {
-//				case 2:
-//					currentInput++;
-//					Menu.clearCursor(c);
-//					break;
-//				case 1:
-//					currentInput--;
-//					Menu.clearCursor(c);
-//					break;
-//				default:
-//					break;
-//				}
-//			} while (choice != 0);
-//
-//			switch (currentInput) {
-//			case MULTI_PLAYER:
-//
-//				break;
-//			case SOLO_PLAYER:
+		while (currentInput != EXIT) {
+			do {
+				Menu.printLogo(c);
+				Menu.printMenu(c, 8, 40);
+				currentInput = Menu.printCursor(c, currentInput);
+				c.printScreen();
+
+				choice = makeChoice();
+				switch (choice) {
+				case 2:
+					currentInput++;
+					Menu.clearCursor(c);
+					break;
+				case 1:
+					currentInput--;
+					Menu.clearCursor(c);
+					break;
+				default:
+					break;
+				}
+			} while (choice != 0);
+
+			switch (currentInput) {
+			case MULTI_PLAYER:
+
+				break;
+			case SOLO_PLAYER:
 			     SoloGame sGame = new SoloGame(c);
 			     Thread tGame = new Thread(sGame);
 			     tGame.start();
@@ -60,14 +60,14 @@ public class Tetris implements ConstantInput, ConstantChar {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-//				break;
-//			case INSTRUCTION:
-//
-//				break;
-//			default:
-//				break;
-//			}
-//		}
+				break;
+			case INSTRUCTION:
+
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	public static void pressEnter(boolean wait) {

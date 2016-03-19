@@ -2,7 +2,7 @@ package fr.esiea.ga.tetris.client.Model;
 
 public interface ConstantGame {
 	public static final int MAP_ROW = 20;
-	public static final int MAP_COL = 16;
+	public static final int MAP_COL = 15;
 	
 	public static final String ANSI_RESET = "\u001B[0m";
 	public static final String ANSI_BLACK = "\u001B[30m";

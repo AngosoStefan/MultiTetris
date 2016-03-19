@@ -7,7 +7,9 @@ import fr.esiea.ga.tetris.client.Model.Area;
 import fr.esiea.ga.tetris.client.Model.ConstantInput;
 import fr.esiea.ga.tetris.client.Model.Piece;
 import fr.esiea.ga.tetris.client.View.Console;
+import fr.esiea.ga.tetris.client.View.DbgVue;
 import fr.esiea.ga.tetris.client.View.Game;
+import fr.esiea.ga.tetris.client.View.PieceVue;
 
 public class SoloGame implements Runnable, ConstantInput {
 	Console c;
@@ -21,6 +23,7 @@ public class SoloGame implements Runnable, ConstantInput {
 
 	public SoloGame(Console c) {
 		this.c = c;
+		c.clearScreen();
 		map = Area.getInstance();
 		currentPiece = new Piece();
 		nextPiece = new Piece();
@@ -29,9 +32,10 @@ public class SoloGame implements Runnable, ConstantInput {
 	}
 
 	public void run() {
-		
-		boolean dbg = true;
-		Game.printNextPiece(c, nextPiece);
+
+		boolean dbg = false;
+		int fullRow = 0;
+		PieceVue.printNextPiece(c, nextPiece);
 		dbgPiece = currentPiece;
 
 		while (currentInput != TOUCH_EXIT) {
@@ -40,13 +44,13 @@ public class SoloGame implements Runnable, ConstantInput {
 			 * PRINT
 			 */
 			Game.printArea(c, Area.MAP_ROW, Area.MAP_COL, 0, 0);
-			Game.printPiece(c, currentPiece);
+			PieceVue.printPiece(c, currentPiece);
 			Game.printTime(c, start);
 
 			if (dbg) {
-				Game.printMapDbg(c, map);
-				Game.printPieceDBG(c, dbgPiece);
-				Game.printInfoDBG(c, currentPiece, (int) (System.currentTimeMillis() - start));
+				DbgVue.printMapDbg(c, map);
+				DbgVue.printPieceDBG(c, dbgPiece);
+				DbgVue.printInfoDBG(c, currentPiece, (int) (System.currentTimeMillis() - start));
 			}
 
 			/*
@@ -91,11 +95,17 @@ public class SoloGame implements Runnable, ConstantInput {
 			}
 			if (pieceDie) {
 				map.updateArea(currentPiece);
+
+				do {
+					fullRow = map.detectFullRow();
+					map.deleteFullRow(c, fullRow);
+				} while (fullRow != 0);
+
 				currentPiece = nextPiece;
 				nextPiece = new Piece();
-				Game.hideNextPiece(c);
-				Game.printNextPiece(c, nextPiece);
-				if (dbg) 
+				PieceVue.hideNextPiece(c);
+				PieceVue.printNextPiece(c, nextPiece);
+				if (dbg)
 					dbgPiece = currentPiece;
 				pieceDie = false;
 			}
@@ -103,23 +113,14 @@ public class SoloGame implements Runnable, ConstantInput {
 			/*
 			 * HIDE TRASH
 			 */
-			Game.hidePrevPiecePos(c, currentPiece, currentInput, map);
-			Game.hidePrevPiecePosDBG(c, dbgPiece, false);
+			PieceVue.hidePrevPiecePos(c, currentPiece, currentInput, map);
+			DbgVue.hidePrevPiecePosDBG(c, dbgPiece, false);
 			Game.hideRawCursor(c); // Do not work perfectly
 			if (dbg)
-				Game.hidePrintInfoDBG(c);
-
-			// Specific case if rotation
-			// if (currentInput == TOUCH_TOP) {
-			// Game.hidePrevPiecePos(c, currentPiece, true);
-			// Game.hidePrevPiecePosDBG(c, dbgPiece, true);
-			// } else {
-
-			// }
+				DbgVue.hidePrintInfoDBG(c);
 
 		}
-	    System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
-	    System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
+		c.clearScreen();
 	}
 
 	// Handle input related to the arrow cursor
