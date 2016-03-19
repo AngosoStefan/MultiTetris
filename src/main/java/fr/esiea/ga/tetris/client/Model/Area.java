@@ -1,13 +1,9 @@
 package fr.esiea.ga.tetris.client.Model;
 
-import fr.esiea.ga.tetris.client.View.Console;
-
-public class Area {
-	public static final int MAP_ROW = 18;
-	public static final int MAP_COL = 13;
-
+public class Area implements ConstantGame {
 	private int map_row_backend, map_col_backend;
 	public int[][] area;
+	public String[][] area2;
 
 	private static Area map = null;
 
@@ -15,6 +11,7 @@ public class Area {
 		map_row_backend = MAP_ROW + 1;
 		map_col_backend = MAP_COL + 1;
 		area = new int[map_row_backend][map_col_backend];
+		area2 = new String[map_row_backend][map_col_backend];
 		initAreaBorder();
 	}
 
@@ -43,9 +40,15 @@ public class Area {
 					area[p.xPos + row][p.yPos + col] = 1;
 			}
 		}
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (p.pieceContent[row][col] == 1)
+					area2[p.xPos + row][p.yPos + col] = p.pieceType.blockID;
+			}
+		}
 	}
 
-	public boolean detecteCollision(int direction, Piece p) {
+	public synchronized boolean detecteCollision(int direction, Piece p) {
 		int lastBorderIndex;
 		int xTmp, yTmp;
 
@@ -53,7 +56,8 @@ public class Area {
 		case Piece.DIR_RIGHT:
 			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_RIGHT);
 			for (int row = 0; row < 4; row++) {
-				if ((p.pieceContent[row][lastBorderIndex] == 1) && (area[p.xPos + row][p.yPos + lastBorderIndex + 1] == 1)) {
+				if ((p.pieceContent[row][lastBorderIndex] == 1)
+						&& (area[p.xPos + row][p.yPos + lastBorderIndex + 1] == 1)) {
 					return true;
 				}
 			}
@@ -61,7 +65,8 @@ public class Area {
 		case Piece.DIR_BOTTOM:
 			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_BOTTOM);
 			for (int col = 0; col < 4; col++) {
-				if ((p.pieceContent[lastBorderIndex][col] == 1) && (area[p.xPos + lastBorderIndex + 1][p.yPos + col] == 1)) {
+				if ((p.pieceContent[lastBorderIndex][col] == 1)
+						&& (area[p.xPos + lastBorderIndex + 1][p.yPos + col] == 1)) {
 					return true;
 				}
 			}
@@ -69,8 +74,25 @@ public class Area {
 		case Piece.DIR_LEFT:
 			lastBorderIndex = p.getLastBorderIndex(Piece.DIR_LEFT);
 			for (int row = 0; row < 4; row++) {
-				if ((p.pieceContent[row][lastBorderIndex] == 1) && (area[p.xPos + row][p.yPos + lastBorderIndex - 1] == 1)) {
+				if ((p.pieceContent[row][lastBorderIndex] == 1)
+						&& (area[p.xPos + row][p.yPos + lastBorderIndex - 1] == 1)) {
 					return true;
+				}
+			}
+			return false;
+		case Piece.DIR_TOP:
+			Piece pCopy = new Piece();
+			pCopy.xPos = p.xPos;
+			pCopy.yPos = p.yPos;
+			pCopy.pieceContent = p.pieceContent;
+			pCopy.rotatePieceLeft();
+			
+			for (int col = 0; col < 4; col++) {
+				for (int row = 0; row < 4; row++) {
+					if ((pCopy.pieceContent[row][col] == 1)
+							&& (area[pCopy.xPos + row][pCopy.yPos + col] == 1)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -79,22 +101,5 @@ public class Area {
 		}
 
 		return true;
-	}
-
-	public void printMapDbg(Console c) {
-		int fakeArea[][] = this.area.clone();
-
-		for (int row = 0; row < MAP_ROW + 1; row++) {
-			for (int col = 0; col < MAP_COL + 1; col++) {
-				c.putStringAt(String.valueOf(fakeArea[row][col]), row, col + 26);
-				// if(fakeArea[row][col] == 1)
-				// c.putStringAt(String.valueOf(fakeArea[row][col]), row, col +
-				// 26);
-				// else
-				// c.putStringAt(" ", row, col + 26);
-			}
-		}
-		// 1 0 0 0 0 0 0 0 0 0 0 0 0 1 douze 0
-		// 1════════════1 douze 0
 	}
 }

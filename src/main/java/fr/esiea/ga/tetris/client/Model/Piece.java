@@ -12,11 +12,11 @@ public class Piece {
 	public int xPos, xPrevPos, yPos, yPrevPos;
 
 	public Piece() {
-		// pieceType = PieceType.randomPiece();
-		pieceType = PieceType.PIECE3;
+		pieceType = PieceType.randomPiece();
+		//pieceType = PieceType.PIECE3;
 		pieceContent = pieceType.blockContent;
 		pieceChar = pieceType.blockID;
-		xPrevPos = xPos = 0;
+		xPrevPos = xPos = 1;
 		yPrevPos = yPos = 5;
 	}
 

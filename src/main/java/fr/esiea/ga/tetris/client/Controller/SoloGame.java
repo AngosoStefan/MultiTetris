@@ -13,6 +13,7 @@ public class SoloGame implements Runnable, ConstantInput {
 	Console c;
 	Area map;
 	Piece currentPiece;
+	Piece nextPiece;
 	Piece dbgPiece;
 	boolean pieceDie = false;
 	int currentInput = -2;
@@ -22,92 +23,103 @@ public class SoloGame implements Runnable, ConstantInput {
 		this.c = c;
 		map = Area.getInstance();
 		currentPiece = new Piece();
+		nextPiece = new Piece();
 		// Get current time
 		start = System.currentTimeMillis();
 	}
 
 	public void run() {
-		boolean test = true;
+		
+		boolean dbg = true;
+		Game.printNextPiece(c, nextPiece);
+		dbgPiece = currentPiece;
+
 		while (currentInput != TOUCH_EXIT) {
-			// DBG PURPOSE
-			dbgPiece = currentPiece;
 
+			/*
+			 * PRINT
+			 */
 			Game.printArea(c, Area.MAP_ROW, Area.MAP_COL, 0, 0);
-			if (test) map.printMapDbg(c);
-
 			Game.printPiece(c, currentPiece);
-			if (test) Game.printPieceDBG(c, dbgPiece);
-			
-			if(test) Game.printInfoDBG(c, currentPiece);
-
 			Game.printTime(c, start);
 
+			if (dbg) {
+				Game.printMapDbg(c, map);
+				Game.printPieceDBG(c, dbgPiece);
+				Game.printInfoDBG(c, currentPiece, (int) (System.currentTimeMillis() - start));
+			}
+
+			/*
+			 * TIMELOOP
+			 */
 			try {
 				TimeUnit.MILLISECONDS.sleep(175);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
+			/*
+			 * PRINT GAME
+			 */
+			c.printScreen();
+
 			currentInput = makeMove();
 			switch (currentInput) {
 			case (TOUCH_TOP):
-//				currentPiece.update(Piece.DIR_TOP);
-				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-					currentPiece.update(Piece.DIR_BOTTOM);
-				}
-				else {
-					pieceDie = true;
+				if (!map.detecteCollision(Piece.DIR_TOP, currentPiece)) {
+					currentPiece.update(Piece.DIR_TOP);
 				}
 				break;
 			case (TOUCH_RIGHT):
 				if (!map.detecteCollision(Piece.DIR_RIGHT, currentPiece)) {
 					currentPiece.update(Piece.DIR_RIGHT);
 				}
-//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-//					currentPiece.update(Piece.DIR_BOTTOM);
-//				} 
-//				else {
-//					pieceDie = true;
-//				}
 				break;
 			case (TOUCH_LEFT):
 				if (!map.detecteCollision(Piece.DIR_LEFT, currentPiece)) {
 					currentPiece.update(Piece.DIR_LEFT);
 				}
-//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-//					currentPiece.update(Piece.DIR_BOTTOM);
-//				} else {
-//					pieceDie = true;
-//				}
 				break;
 			default:
-//				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
-//					currentPiece.update(Piece.DIR_BOTTOM);
-//				} else {
-//					pieceDie = true;
-//				}
+				if (!map.detecteCollision(Piece.DIR_BOTTOM, currentPiece)) {
+					currentPiece.update(Piece.DIR_BOTTOM);
+				} else {
+					pieceDie = true;
+				}
+
 				break;
 			}
 			if (pieceDie) {
 				map.updateArea(currentPiece);
-				currentPiece = new Piece();
+				currentPiece = nextPiece;
+				nextPiece = new Piece();
+				Game.hideNextPiece(c);
+				Game.printNextPiece(c, nextPiece);
+				if (dbg) 
+					dbgPiece = currentPiece;
 				pieceDie = false;
-				test = true;
 			}
-			
-			c.printScreen();
-			// Specific case if rotation
-//			if (currentInput == TOUCH_TOP) {
-//				Game.hidePrevPiecePos(c, currentPiece, true);
-//				Game.hidePrevPiecePosDBG(c, dbgPiece, true);
-//			} else {
-				Game.hidePrevPiecePos(c, currentPiece, false);
-				Game.hidePrevPiecePosDBG(c, dbgPiece, false);
-//			}
-			if (test) Game.hidePrintInfoDBG(c);
+
+			/*
+			 * HIDE TRASH
+			 */
+			Game.hidePrevPiecePos(c, currentPiece, currentInput, map);
+			Game.hidePrevPiecePosDBG(c, dbgPiece, false);
 			Game.hideRawCursor(c); // Do not work perfectly
+			if (dbg)
+				Game.hidePrintInfoDBG(c);
+
+			// Specific case if rotation
+			// if (currentInput == TOUCH_TOP) {
+			// Game.hidePrevPiecePos(c, currentPiece, true);
+			// Game.hidePrevPiecePosDBG(c, dbgPiece, true);
+			// } else {
+
+			// }
+
 		}
-		// c.clearScreen();
+	    System.out.println("\033[31;1mHello\033[0m, \033[32;1;2mworld!\033[0m");
+	    System.out.println("\033[31mRed\033[32m, Green\033[33m, Yellow\033[34m, Blue\033[0m");
 	}
 
 	// Handle input related to the arrow cursor
