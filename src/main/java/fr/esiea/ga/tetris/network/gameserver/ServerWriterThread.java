@@ -1,51 +1,51 @@
 package fr.esiea.ga.tetris.network.gameserver;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import fr.esiea.ga.tetris.network.communication.NetworkWriterInterface;
+import fr.esiea.ga.tetris.network.communication.WriterCloser;
+import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
 public class ServerWriterThread implements Runnable, NetworkWriterInterface {
 
-	String msg;
-	Socket socket;
-	PrintWriter out;
+	private Socket socket;
+	private PrintWriter out;
+	private ArrayBlockingQueue<NetworkMessage> sharedMsgList;
+	private NetworkMessage nm;
+	private int serverId;
 
-	public ServerWriterThread (Socket socket, PrintWriter out) {
+	public ServerWriterThread (Socket socket, PrintWriter out, ArrayBlockingQueue<NetworkMessage> sharedMsgList, int serverId) {
 		this.socket = socket;
 		this.out = out;
+		this.sharedMsgList = sharedMsgList;
+		this.serverId = serverId;
 	}
 
-	
+
 	public void run() {
-		try {
-			writeSocketOuput(socket,out);
-			closeStreams(socket,out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writeSocketOuput();
+		System.out.println("Tout est fermé avant");
+		WriterCloser.closeStreams(socket,out);
+		System.out.println("Tout est fermé");
 	}
-	
-	
-	public void writeSocketOuput(Socket socket, PrintWriter out) {
+
+
+	public void writeSocketOuput() {
+		
+		nm = NetworkMessage.strToNM(String.valueOf(serverId)+",5");		// On attribue le numéro de joueur
+		out.println(nm.toString());			
+		out.flush();
+		
 		while(true){
-			msg="toto";
 			try {
-				Thread.sleep(2000);
+				nm = sharedMsgList.take();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println("System - Problème d'acquisition du message réseau");
 			}
-			out.println(msg);
+			out.println(nm.toString());			
 			out.flush();
 		}
 	}
-	
-
-	public void closeStreams(Socket socket, PrintWriter out) throws IOException {
-		socket.close();
-		out.close();
-		System.out.println("System - Connexion fermée côté client");
-	}
-
 }

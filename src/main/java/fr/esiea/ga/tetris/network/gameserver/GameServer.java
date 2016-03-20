@@ -7,11 +7,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
 public class GameServer {
 
 	ServerSocket serverSocket; // Socket du serveur
-	//Socket[] socketArray;
+	ArrayBlockingQueue<NetworkMessage> sharedMsgList = new ArrayBlockingQueue<NetworkMessage>(50);
 	
 	int connectedPlayers, maxPlayers = 2;
 	
@@ -36,9 +39,9 @@ public class GameServer {
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter (socket.getOutputStream());
-			
-				ServerReaderThread srt = new ServerReaderThread (socket,in);
-				ServerWriterThread swt = new ServerWriterThread (socket,out);
+
+				ServerReaderThread srt = new ServerReaderThread (socket,in,sharedMsgList);
+				ServerWriterThread swt = new ServerWriterThread (socket,out,sharedMsgList, connectedPlayers);
 				
 				new Thread(srt).start();	// On lance le thread d'écoute serveur
 				new Thread(swt).start();	// On lance le thread d'écriture serveur

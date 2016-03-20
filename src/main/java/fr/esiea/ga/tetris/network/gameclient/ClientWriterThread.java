@@ -8,33 +8,32 @@ import fr.esiea.ga.tetris.network.communication.NetworkWriterInterface;
 
 public class ClientWriterThread implements Runnable, NetworkWriterInterface {
 
-	String msg;
-	Socket socket;
-	PrintWriter out;
-
+	private Socket socket;
+	private PrintWriter out;
+	private String msg;
+	
+	
 	public ClientWriterThread (Socket socket, PrintWriter out) {
 		this.socket = socket;
 		this.out = out;
+		msg = new String("0,0");
 	}
 
+	
 	/* Methode run du thread */
-	
+
 	public void run() {
-		try {
-			writeSocketOuput(socket,out);
-			closeStreams(socket,out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		writeSocketOuput();
+		closeStreams();
 	}
 
-	/* Ecrit dans le flux de sortie */
 	
-	public void writeSocketOuput(Socket socket, PrintWriter out) {
+	/* Ecrit dans le flux de sortie */
+
+	public void writeSocketOuput() {
 		while(true){
-			msg="Je suis 1 client";
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -43,11 +42,16 @@ public class ClientWriterThread implements Runnable, NetworkWriterInterface {
 		}
 	}
 
-	/* Ferme les flux de sortie */
 	
-	public void closeStreams(Socket socket, PrintWriter out) throws IOException {
-		socket.close();
-		out.close();
+	/* Ferme les flux de sortie */
+
+	public void closeStreams() {
+		try {
+			out.close();
+			socket.close();
+		} catch (IOException e) {
+			System.out.println("System - Problème de fermeture des flux");
+		}
 		System.out.println("System - Connexion fermée côté client");
 	}
 
