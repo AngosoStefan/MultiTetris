@@ -1,7 +1,5 @@
 package fr.esiea.ga.tetris.network.gameserver;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 
 import org.junit.Test;

@@ -2,37 +2,54 @@ package fr.esiea.ga.tetris.network.gameclient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientReaderThread extends Thread{
+import fr.esiea.ga.tetris.network.communication.NetworkReaderInterface;
+import fr.esiea.ga.tetris.network.communication.ReaderCloser;
+import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
-	String msg;
-	BufferedReader in;
-	PrintWriter out;
-	Socket socket;
+public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 
-	public ClientReaderThread (Socket socket,BufferedReader in, PrintWriter out) {
+	private BufferedReader in;
+	private Socket socket;
+	private String msg;
+	private int clientId;
+	private NetworkMessage nm;
+	
+	public ClientReaderThread (Socket socket,BufferedReader in) {
 		this.in = in; 
-		this.out = out;
 		this.socket = socket;
+		msg = new String("0,0");
 	}
 
-	@Override
 	public void run() {
-		try {
-			msg = in.readLine();
-			while(msg != null && !msg.equals("quit")){
-				System.out.println("Serveur : "+msg);
+		readSocketInput();
+		ReaderCloser.closeStreams(socket,in);
+	}
+
+	public void readSocketInput () {
+		while(msg != null && !msg.equals("quit")){
+			try {
 				msg = in.readLine();
+				nm = NetworkMessage.strToNM(msg);
+				handleAction();
+				System.out.println("Mon numéro de joueur est "+clientId);
+				try {
+					Thread.sleep(90000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (IOException e) {
+				System.out.println("System - Problème de communication Client-Serveur");
 			}
-			out.close();
-			socket.close();
-			System.out.println("System - Connexion fermée côté client");
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
+	}
+	
+	public void handleAction () {
+		if (nm.getGameCode() == 5)
+			clientId = nm.getPlayerNumber();
 	}
 
 }
