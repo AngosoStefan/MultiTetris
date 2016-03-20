@@ -2,6 +2,8 @@
 
 # SHELL SCREEN RESOLUTION 
 
+Right click > Profile > Profile Preference
+The have a better experience, set the Font to : FreeMono 12
 The 'screen' MUST be composed of a 25 row by 80 column matrix of character locations.
 Manually check it into your shell settings.
 Without this configuration the gotoxy() goes wrong.
@@ -42,8 +44,8 @@ Run the External_Console you previously set :
 	pwd
 	/home/X/workspace/MultiTetris/src/main
 
-Copy/Paste
-	java -cp ~/.m2/repository/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar:../../target/classes: fr.esiea.ga.tetris.client.Tetris
+Play !
+	./Tetris
 	
 	~/.m2/repository/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar
 If the jar isn't at this location localy on your computer find it and replace this path with yours
