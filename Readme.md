@@ -1,6 +1,4 @@
-/********************
- *	CLIENT DEV MODE	*
- ********************/
+*	CLIENT DEV MODE
 
 # SHELL SCREEN RESOLUTION 
 
@@ -50,6 +48,4 @@ Copy/Paste
 	~/.m2/repository/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar
 If the jar isn't at this location localy on your computer find it and replace this path with yours
 
-/********************
- *	SERVER DEV MODE	*
- ********************/
+*	SERVER DEV MODE
