@@ -48,5 +48,4 @@ public class ServerWriterThread implements Runnable, NetworkWriterInterface {
 			out.flush();
 		}
 	}
-
 }

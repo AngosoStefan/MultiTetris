@@ -39,7 +39,7 @@ public class GameServer {
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter (socket.getOutputStream());
-			
+
 				ServerReaderThread srt = new ServerReaderThread (socket,in,sharedMsgList);
 				ServerWriterThread swt = new ServerWriterThread (socket,out,sharedMsgList, connectedPlayers);
 				

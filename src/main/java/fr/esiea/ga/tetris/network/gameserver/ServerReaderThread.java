@@ -24,14 +24,12 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 		msg = new String("0,0");
 	}
 
-
 	/* Methode run du thread */
 
 	public void run() {
 		readSocketInput();
 		ReaderCloser.closeStreams(socket,in);
 	}
-
 
 	/* Lit le flux en entrée */
 
@@ -47,6 +45,5 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 		}
 
 	}
-
 
 }

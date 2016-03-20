@@ -1,0 +1,1 @@
+java -cp ~/.m2/repository/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar:~/.m2/repository/org:../../target/classes: fr.esiea.ga.tetris.client.Controller.Tetris

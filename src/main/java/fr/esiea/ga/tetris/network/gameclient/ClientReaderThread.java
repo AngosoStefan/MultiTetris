@@ -44,7 +44,6 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 				System.out.println("System - Problème de communication Client-Serveur");
 			}
 		}
-
 	}
 	
 	public void handleAction () {
@@ -52,4 +51,25 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 			clientId = nm.getPlayerNumber();
 	}
 
+	// DURING MERGING NO CONFLICT ON THAT
+	// public void closeStreams(Socket socket, BufferedReader in) throws IOException {
+	// 	in.close();
+	// 	socket.close();
+	// }
+
+	// public void readSocketInput (Socket socket, BufferedReader in) throws IOException {
+	// 	msg = in.readLine();
+	// 	while(msg != null && !msg.equals("quit")){
+	// 		System.out.println("Serveur : "+msg);
+	// 		msg = in.readLine();
+	// 	}
+		
+	// }
+	
+	// public void closeStreams(Socket socket, BufferedReader in, PrintWriter out) throws IOException {
+	// 	socket.close();
+	// 	in.close();
+	// 	System.out.println("System - Connexion fermée côté client");
+	// }
+	
 }

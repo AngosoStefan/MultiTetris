@@ -38,10 +38,5 @@ public class NetworkMessageTest {
 		
 		assertEquals(str,nm.toString());
 		
-	}
-	
-	
-	
-	
-	
+	}	
 }
