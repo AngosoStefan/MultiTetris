@@ -13,13 +13,16 @@ import fr.esiea.ga.tetris.network.messages.NetworkMessage;
 
 public class GameServer {
 
-	ServerSocket serverSocket; // Socket du serveur
-	ArrayBlockingQueue<NetworkMessage> sharedMsgList = new ArrayBlockingQueue<NetworkMessage>(50);
+	private ServerSocket serverSocket; // Socket du serveur
+	private ArrayBlockingQueue<NetworkMessage> sharedMsgList = new ArrayBlockingQueue<NetworkMessage>(50);
 	
 	int connectedPlayers, maxPlayers = 2;
 	
 	final Scanner sc = new Scanner(System.in);	// Entrées
 	private Socket socket;	// Socket de connexion au client
+	
+	private ServerReaderThread srt;
+	private ServerWriterThread swt;
 	
 	public GameServer(int port) throws IOException {
 		
@@ -40,8 +43,8 @@ public class GameServer {
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter (socket.getOutputStream());
 
-				ServerReaderThread srt = new ServerReaderThread (socket,in,sharedMsgList);
-				ServerWriterThread swt = new ServerWriterThread (socket,out,sharedMsgList, connectedPlayers);
+				srt = new ServerReaderThread (socket,in,sharedMsgList);
+				swt = new ServerWriterThread (socket,out,sharedMsgList, connectedPlayers);
 				
 				new Thread(srt).start();	// On lance le thread d'écoute serveur
 				new Thread(swt).start();	// On lance le thread d'écriture serveur

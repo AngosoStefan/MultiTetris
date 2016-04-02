@@ -14,8 +14,36 @@ public class GameClient {
 	
 	BufferedReader in;
 	PrintWriter out;
+	
+	ClientReaderThread crt;
+	ClientWriterThread cwt;
 
 	final Scanner sc = new Scanner(System.in);
+	
+	public Socket getClientSocket() {
+		return clientSocket;
+	}
+
+	public void setClientSocket(Socket clientSocket) {
+		this.clientSocket = clientSocket;
+	}
+
+	public ClientReaderThread getCrt() {
+		return crt;
+	}
+
+	public void setCrt(ClientReaderThread crt) {
+		this.crt = crt;
+	}
+
+	public ClientWriterThread getCwt() {
+		return cwt;
+	}
+
+	public void setCwt(ClientWriterThread cwt) {
+		this.cwt = cwt;
+	}
+	
 	
 	public GameClient(String adr, int port) {
 		try {
@@ -25,8 +53,8 @@ public class GameClient {
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));	// On récupère les flux d'entrée et sortie
 			out = new PrintWriter(clientSocket.getOutputStream());
 			
-			ClientReaderThread crt = new ClientReaderThread (clientSocket,in);	// On lance les threads de lecture et d'écriture
-			ClientWriterThread cwt = new ClientWriterThread(clientSocket,out);
+			crt = new ClientReaderThread (clientSocket,in);	// On lance les threads de lecture et d'écriture
+			cwt = new ClientWriterThread(clientSocket,out);
 			
 			new Thread(crt).start();	// On lance le thread d'écoute
 			new Thread(cwt).start();	// On lance le thread d'écriture
@@ -41,5 +69,7 @@ public class GameClient {
 	public static void main(String argv[]){
 		new GameClient("127.0.0.1",8000);
 	}
+
+	
 	
 }

@@ -2,7 +2,9 @@ package fr.esiea.ga.tetris.network.gameclient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import fr.esiea.ga.tetris.network.communication.NetworkReaderInterface;
 import fr.esiea.ga.tetris.network.communication.ReaderCloser;
@@ -12,32 +14,35 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 
 	private BufferedReader in;
 	private Socket socket;
-	private String msg;
 	private int clientId;
-	private NetworkMessage nm;
+	private ArrayBlockingQueue<NetworkMessage> receivedMsgList = new ArrayBlockingQueue<NetworkMessage>(50);
 	
 	public ClientReaderThread (Socket socket,BufferedReader in) {
 		this.in = in; 
 		this.socket = socket;
-		msg = new String("0,0");
+	}
+	
+	public ArrayBlockingQueue<NetworkMessage> getReceivedMsgList() {
+		return receivedMsgList;
 	}
 
 	public void run() {
-		readSocketInput();
-		ReaderCloser.closeStreams(socket,in);
+		readSocketInput();						// je lis
+		ReaderCloser.closeStreams(socket,in);	// je ferme
 	}
 
 	public void readSocketInput () {
+		String msg = new String("0,0");;
+		NetworkMessage nm;
 		while(msg != null && !msg.equals("quit")){
 			try {
-				msg = in.readLine();
-				nm = NetworkMessage.strToNM(msg);
-				handleAction();
+				msg = in.readLine();							// On reçoit un message brut
+				receivedMsgList.add(NetworkMessage.strToNM(msg));	// On le convertit et rajoute dans notre liste
+				
 				System.out.println("Mon numéro de joueur est "+clientId);
 				try {
 					Thread.sleep(90000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} catch (IOException e) {
@@ -45,31 +50,30 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 			}
 		}
 	}
-	
-	public void handleAction () {
+
+	public void handleAction (NetworkMessage nm) {
 		if (nm.getGameCode() == 5)
 			clientId = nm.getPlayerNumber();
 	}
 
-	// DURING MERGING NO CONFLICT ON THAT
-	// public void closeStreams(Socket socket, BufferedReader in) throws IOException {
-	// 	in.close();
-	// 	socket.close();
-	// }
+	public void closeStreams(Socket socket, BufferedReader in) throws IOException {
+		in.close();
+		socket.close();
+	}
 
-	// public void readSocketInput (Socket socket, BufferedReader in) throws IOException {
-	// 	msg = in.readLine();
-	// 	while(msg != null && !msg.equals("quit")){
-	// 		System.out.println("Serveur : "+msg);
-	// 		msg = in.readLine();
-	// 	}
-		
-	// }
-	
-	// public void closeStreams(Socket socket, BufferedReader in, PrintWriter out) throws IOException {
-	// 	socket.close();
-	// 	in.close();
-	// 	System.out.println("System - Connexion fermée côté client");
-	// }
-	
+	public void readSocketInput (Socket socket, BufferedReader in) throws IOException {
+		String msg = in.readLine();
+		while(msg != null && !msg.equals("quit")){
+			System.out.println("Serveur : "+msg);
+			msg = in.readLine();
+		}
+
+	}
+
+	public void closeStreams(Socket socket, BufferedReader in, PrintWriter out) throws IOException {
+		socket.close();
+		in.close();
+		System.out.println("System - Connexion fermée côté client");
+	}
+
 }

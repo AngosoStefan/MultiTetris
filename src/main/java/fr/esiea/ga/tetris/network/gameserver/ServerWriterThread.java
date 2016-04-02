@@ -40,11 +40,11 @@ public class ServerWriterThread implements Runnable, NetworkWriterInterface {
 		
 		while(true){
 			try {
-				nm = sharedMsgList.take();
+				nm = sharedMsgList.take();								// Prend les messages de la liste
 			} catch (InterruptedException e) {
 				System.out.println("System - Problème d'acquisition du message réseau");
 			}
-			out.println(nm.toString());			
+			out.println(nm.toString());									// Les envoie à tout le monde
 			out.flush();
 		}
 	}

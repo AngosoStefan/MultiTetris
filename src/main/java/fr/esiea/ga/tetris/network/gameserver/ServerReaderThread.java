@@ -15,7 +15,6 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 	private Socket socket;
 	private String msg;
 	private ArrayBlockingQueue<NetworkMessage> sharedMsgList;
-
 	
 	public ServerReaderThread (Socket socket,BufferedReader in, ArrayBlockingQueue<NetworkMessage> sharedMsgList) {
 		this.in = in; 
@@ -41,7 +40,7 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 			} catch (IOException e) {
 				System.out.println("System - Problème de communication Client-Serveur");
 			}
-			sharedMsgList.add(NetworkMessage.strToNM(msg));
+			sharedMsgList.add(NetworkMessage.strToNM(msg));	// Ajoute le message lu à la liste
 		}
 
 	}
