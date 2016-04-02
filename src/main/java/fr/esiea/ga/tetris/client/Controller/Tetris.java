@@ -6,20 +6,24 @@ import fr.esiea.ga.tetris.client.Model.ConstantChar;
 import fr.esiea.ga.tetris.client.Model.ConstantInput;
 import fr.esiea.ga.tetris.client.View.Console;
 import fr.esiea.ga.tetris.client.View.Menu;
+import fr.esiea.ga.tetris.network.gameclient.GameClient;
 
 public class Tetris implements ConstantInput, ConstantChar {
+	static SoloGame soloGame;
+	static MultiGame multiGame;
+	static Thread tGame;
+	static Console c = new Console();
+
+	static int choice = -2;
+	static int currentInput = 4;
 
 	public static void main(String[] args) {
-		int choice = -2;
-		int currentInput = 4;
 
-		Console c = new Console();
-
-		Menu.printLogo(c);
-		c.putStringAt("Press Enter", 12, 31);
-		c.printScreen(true);
-		pressEnter(true);
-		c.clearScreen();
+		// Menu.printLogo(c);
+		// c.putStringAt("Press Enter", 12, 31);
+		// c.printScreen(true);
+		// pressEnter(true);
+		// c.clearScreen();
 
 		/********
 		 * MENU *
@@ -49,14 +53,22 @@ public class Tetris implements ConstantInput, ConstantChar {
 
 			switch (currentInput) {
 			case MULTI_PLAYER:
-
+				multiGame = new MultiGame();
+				tGame = new Thread(multiGame);
+				tGame.start();
+				try {
+					tGame.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				// multiGame = new GameClient("127.0.0.1", 8000);
 				break;
 			case SOLO_PLAYER:
-			     SoloGame sGame = new SoloGame(c);
-			     Thread tGame = new Thread(sGame);
-			     tGame.start();
-			     try {
-			    	 tGame.join();
+				soloGame = new SoloGame();
+				tGame = new Thread(soloGame);
+				tGame.start();
+				try {
+					tGame.join();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -84,7 +96,7 @@ public class Tetris implements ConstantInput, ConstantChar {
 			e.printStackTrace();
 		}
 	}
-	
+
 	// Handle input related to the arrow cursor
 	public static int makeChoice() {
 		int charCode = -2;

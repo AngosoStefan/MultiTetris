@@ -17,7 +17,7 @@ public class Menu implements ConstantChar {
 		final String instruct = "Instruction";
 		final String exit = "Exit";
 
-		Game.printRectangle(c, row, col, 10, 18);
+		GameVue.printRectangle(c, row, col, 10, 18);
 		c.putStringAt(tOnline, 12, 28);
 		c.putStringAt(tSolo, 13, 28);
 		c.putStringAt(instruct, 14, 28);

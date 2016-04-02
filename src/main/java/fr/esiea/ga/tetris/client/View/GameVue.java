@@ -4,7 +4,7 @@ import fr.esiea.ga.tetris.client.Model.ConstantChar;
 import fr.esiea.ga.tetris.client.Model.ConstantGame;
 import fr.esiea.ga.tetris.client.Model.ConstantInput;
 
-public class Game implements ConstantChar, ConstantInput, ConstantGame {
+public class GameVue implements ConstantChar, ConstantInput, ConstantGame {
 
 	public static void hideRawCursor(Console c) {
 		// Good row but didn't work
@@ -33,6 +33,10 @@ public class Game implements ConstantChar, ConstantInput, ConstantGame {
 		c.putStringAt(COL_LEFT, 5, col + 9);
 		for (int i = col + 1; i < col + 9; i++)
 			c.putStringAt(ROW, 5, i);
+	}
+	
+	public static void printAreaOtherPlayer(Console c, int row, int col) {
+		printRectangle(c, row, col, 0, col + 9 + 3);
 	}
 
 	public static void printRectangle(Console c, int row, int col, int xPos, int yPos) {

@@ -3,23 +3,15 @@ package fr.esiea.ga.tetris.client.Model;
 import fr.esiea.ga.tetris.client.View.Console;
 
 public class Area implements ConstantGame {
-	private int map_row_backend, map_col_backend;
+	private int map_row_backend = MAP_ROW + 1;
+	private int map_col_backend = MAP_COL + 1;
 	public int[][] area;
 
 	private static Area map = null;
 
-	private Area() {
-		map_row_backend = MAP_ROW + 1;
-		map_col_backend = MAP_COL + 1;
+	public Area() {
 		area = new int[map_row_backend][map_col_backend];
 		initAreaBorder();
-	}
-
-	public static Area getInstance() {
-		if (map == null)
-			map = new Area();
-
-		return map;
 	}
 
 	private void initAreaBorder() {
