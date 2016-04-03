@@ -11,6 +11,7 @@ import fr.esiea.ga.tetris.network.gameclient.GameClient;
 public class Tetris implements ConstantInput, ConstantChar {
 	static SoloGame soloGame;
 	static MultiGame multiGame;
+	static GameClient gameClient;
 	static Thread tGame;
 	static Console c = new Console();
 
@@ -53,7 +54,8 @@ public class Tetris implements ConstantInput, ConstantChar {
 
 			switch (currentInput) {
 			case MULTI_PLAYER:
-				multiGame = new MultiGame();
+				gameClient = new GameClient("127.0.0.1",8000);
+				multiGame = new MultiGame(gameClient);
 				tGame = new Thread(multiGame);
 				tGame.start();
 				try {

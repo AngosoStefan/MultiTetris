@@ -32,28 +32,20 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 	}
 
 	public void readSocketInput () {
-		String msg = new String("0,0");;
+		String msg = new String("0,0,0");
 		NetworkMessage nm;
-		while(msg != null && !msg.equals("quit")){
+		while(msg != null && !msg.equals("quit")){			// Si le client se deconnecte
 			try {
-				msg = in.readLine();							// On reçoit un message brut
-				receivedMsgList.add(NetworkMessage.strToNM(msg));	// On le convertit et rajoute dans notre liste
-				
-				System.out.println("Mon numéro de joueur est "+clientId);
-				try {
-					Thread.sleep(90000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				msg = in.readLine();
+				// System.out.println("ReadLine : "+ msg);
 			} catch (IOException e) {
-				System.out.println("System - Problème de communication Client-Serveur");
+				System.out.println("System - Probleme de communication Client-Serveur");
+			}
+			if (msg.contains(",")) {
+				// Ajoute le message lu a la liste
+				receivedMsgList.add(NetworkMessage.strToNM(msg));
 			}
 		}
-	}
-
-	public void handleAction (NetworkMessage nm) {
-		if (nm.getGameCode() == 5)
-			clientId = nm.getPlayerNumber();
 	}
 
 	public void closeStreams(Socket socket, BufferedReader in) throws IOException {
@@ -73,7 +65,7 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 	public void closeStreams(Socket socket, BufferedReader in, PrintWriter out) throws IOException {
 		socket.close();
 		in.close();
-		System.out.println("System - Connexion fermée côté client");
+		System.out.println("System - Connexion fermee cote client");
 	}
 
 }

@@ -30,19 +30,20 @@ public class ServerReaderThread implements Runnable, NetworkReaderInterface{
 		ReaderCloser.closeStreams(socket,in);
 	}
 
-	/* Lit le flux en entrée */
+	/* Lit le flux en entrï¿½e */
 
 	public void readSocketInput() {
-		while(msg != null && !msg.equals("quit")){			// Si le client se déconnecte
-			System.out.println("Client : "+msg);
+		while(msg != null && !msg.equals("quit")){			// Si le client se deconnecte
 			try {
 				msg = in.readLine();
+				System.out.println("ReadLine : "+ msg);
 			} catch (IOException e) {
-				System.out.println("System - Problème de communication Client-Serveur");
+				System.out.println("System - Probleme de communication Client-Serveur");
 			}
-			sharedMsgList.add(NetworkMessage.strToNM(msg));	// Ajoute le message lu à la liste
+			if (msg.contains(",")) {
+				sharedMsgList.add(NetworkMessage.strToNM(msg));	// Ajoute le message lu a la liste
+			}
 		}
-
 	}
 
 }

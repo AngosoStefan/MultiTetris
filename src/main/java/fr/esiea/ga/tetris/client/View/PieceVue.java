@@ -39,6 +39,20 @@ public class PieceVue implements ConstantChar, ConstantInput, ConstantGame {
 		}
 	}
 	
+	public static void hidePrevPiecePosOtherPlayer(Console c, Piece p) {
+		Piece pCopy = new Piece();
+		pCopy.xPrevPos = p.xPrevPos;
+		pCopy.yPrevPos = p.yPrevPos;
+		pCopy.pieceContent = p.pieceContent;
+		
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 4; col++) {
+				if (pCopy.pieceContent[row][col] == 1)
+						c.putStringAt(" ", row + pCopy.xPrevPos, col + pCopy.yPrevPos);
+			}
+		}
+	}
+	
 	public static void printNextPiece(Console c, Piece p) {
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {

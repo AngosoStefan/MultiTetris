@@ -48,7 +48,7 @@ public abstract class Game implements Runnable, ConstantInput {
 	// TIMELOOP
 	protected void gameSpeed() {
 		try {
-			TimeUnit.MILLISECONDS.sleep(175);
+			TimeUnit.MILLISECONDS.sleep(225);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -119,6 +119,8 @@ public abstract class Game implements Runnable, ConstantInput {
 			return TOUCH_LEFT;
 		case TOUCH_EXIT:
 			return TOUCH_EXIT;
+		case 97:
+			return 97;
 		default:
 			return -2;
 		}

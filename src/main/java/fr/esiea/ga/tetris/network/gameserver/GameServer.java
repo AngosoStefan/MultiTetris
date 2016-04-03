@@ -16,9 +16,10 @@ public class GameServer {
 	private ServerSocket serverSocket; // Socket du serveur
 	private ArrayBlockingQueue<NetworkMessage> sharedMsgList = new ArrayBlockingQueue<NetworkMessage>(50);
 	
-	int connectedPlayers, maxPlayers = 2;
+	int connectedPlayers = 0;
+	int maxPlayers = 2;
 	
-	final Scanner sc = new Scanner(System.in);	// Entrées
+	final Scanner sc = new Scanner(System.in);	// Entrees
 	private Socket socket;	// Socket de connexion au client
 	
 	private ServerReaderThread srt;
@@ -29,16 +30,15 @@ public class GameServer {
 		socket = new Socket();
 		
 		try {
+			serverSocket = new ServerSocket(port);	// On cree le serveur
+			System.out.println("System - Le serveur est cree au port "+port+".");
 			
-			serverSocket = new ServerSocket(port);	// On crée le serveur
-			System.out.println("System - Le serveur est créé au port "+port+".");
-			
-			while (connectedPlayers <= maxPlayers) {
+			while (connectedPlayers < maxPlayers) {
 			
 				socket = serverSocket.accept();			// On accepte une connexion
 				connectedPlayers++;
 				
-				System.out.println("System - Un client s'est connecté.");
+				System.out.println("System - Un client s'est connectï¿½. Id : " + String.valueOf(connectedPlayers));
 				
 				BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				PrintWriter out = new PrintWriter (socket.getOutputStream());
@@ -46,16 +46,13 @@ public class GameServer {
 				srt = new ServerReaderThread (socket,in,sharedMsgList);
 				swt = new ServerWriterThread (socket,out,sharedMsgList, connectedPlayers);
 				
-				new Thread(srt).start();	// On lance le thread d'écoute serveur
-				new Thread(swt).start();	// On lance le thread d'écriture serveur
-				
+				new Thread(srt).start();	// On lance le thread d'ecoute serveur
+				new Thread(swt).start();	// On lance le thread d'ecriture serveur
 			}
-			
 		}
 		catch (IOException e) {
-			System.out.println("Le serveur n'a pas pu être créé à ce numéro de port.");
+			System.out.println("Le serveur n'a pas pu etre cree a ce numero de port.");
 		}
-
 	}
 	
 	public static int askPort(){
@@ -72,9 +69,9 @@ public class GameServer {
 	}
 	
 	public static void main (String argv[]) throws IOException, NullPointerException {
-		//System.out.println("System - Taper le numéro de port :");
+		//System.out.println("System - Taper le numero de port :");
 		int port = 8000;
-		//port = askPort();	// On demande le numéro de port
+		//port = askPort();	// On demande le numero de port
 		
 		new GameServer(port);
 	}

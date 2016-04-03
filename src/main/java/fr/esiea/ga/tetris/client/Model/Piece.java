@@ -1,6 +1,6 @@
 package fr.esiea.ga.tetris.client.Model;
 
-public class Piece {
+public class Piece implements ConstantNetworkMessage {
 	public static final int DIR_TOP = 4;
 	public static final int DIR_RIGHT = 3;
 	public static final int DIR_BOTTOM = 2;
@@ -18,6 +18,38 @@ public class Piece {
 		pieceChar = pieceType.blockID;
 		xPrevPos = xPos = 1;
 		yPrevPos = yPos = 5;
+	}
+	
+	public Piece(int typePiece) {
+		switch (typePiece) {
+		case 1:
+			pieceType = PieceType.PIECE1;
+			break;
+		case BLOCK2:
+			pieceType = PieceType.PIECE2;
+			break;
+		case BLOCK3:
+			pieceType = PieceType.PIECE3;
+			break;
+		case BLOCK4:
+			pieceType = PieceType.PIECE4;
+			break;
+		case BLOCK5:
+			pieceType = PieceType.PIECE5;
+			break;
+		case BLOCK6:
+			pieceType = PieceType.PIECE6;
+			break;
+		case BLOCK7:
+			pieceType = PieceType.PIECE7;
+			break;
+		default:
+			break;
+		}
+		pieceContent = pieceType.blockContent;
+		pieceChar = pieceType.blockID;
+		xPrevPos = xPos = 1;
+		yPrevPos = yPos = 32;
 	}
 
 	public void update(int direction) {
