@@ -2,53 +2,53 @@ package fr.esiea.ga.tetris.network.messages;
 
 public class NetworkMessage {
 
-	private int playerNumber;	// Numero de joueur
-	private int gameCode;		// Code de jeu : malus, partie perdue...
+	private int playerId;
+	private int actionCode;
+	private int subActionCode;
 
-	public NetworkMessage(int playerNumber, int gameCode) {
-		this.playerNumber = playerNumber;	
-		this.gameCode = gameCode;			
+	public NetworkMessage(int playerId, int actionCode, int subActionCode) {
+		this.playerId = playerId;	
+		this.actionCode = actionCode;
+		this.subActionCode = subActionCode;
 	}
 
-	public int getPlayerNumber() {
-		return playerNumber;
+	public int getPlayerId() {
+		return playerId;
 	}
 
-	public void setPlayerNumber(int playerNumber) {
-		this.playerNumber = playerNumber;
+	public int getActionCode() {
+		return actionCode;
 	}
-
-	public int getGameCode() {
-		return gameCode;
-	}
-
-	public void setGameCode(int gameCode) {
-		this.gameCode = gameCode;
+	
+	public int getSubActionCode() {
+		return subActionCode;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(playerNumber);
+		sb.append(playerId);
 		sb.append(",");
-		sb.append(gameCode);
+		sb.append(actionCode);
+		sb.append(",");
+		sb.append(subActionCode);
 
 		return sb.toString();
 	}
 
 	public static NetworkMessage strToNM (String str){
-		
 		String[] strArray = str.split(",");			// J'extraie les entiers de mon message
 		int[] intArray = new int[strArray.length];
 		for(int i = 0; i < strArray.length; i++) {
 			intArray[i] = Integer.parseInt(strArray[i]);
 		}
 		
-		int playerCode = intArray[0];
-		int gameCode = intArray[1];
+		int playerId = intArray[0];
+		int actionCode = intArray[1];
+		int subActionCode = intArray[2];
 				
-		NetworkMessage nm = new NetworkMessage(playerCode,gameCode);	// Je cree le networkMessage correspondant
+		NetworkMessage nm = new NetworkMessage(playerId,actionCode,subActionCode);	// Je cree le networkMessage correspondant
 
 		return nm;
 	}

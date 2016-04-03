@@ -43,7 +43,7 @@ public class ClientWriterThread implements Runnable, NetworkWriterInterface {
 				e.printStackTrace();
 			}
 			if (!flag) {
-				msg = new String("0,0");
+				msg = new String("0,0,0");
 				flag = true;
 			} else {
 				msg = null;

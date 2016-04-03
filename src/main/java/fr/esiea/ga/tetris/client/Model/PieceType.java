@@ -23,6 +23,24 @@ public enum PieceType implements ConstantBlock {
 		this.blockID = blockID;
 		this.blockContent = blockContent;
 	}
+	
+	public int getBlockId() {
+		if (this.blockID.equals(BLOCK1))
+			return 1;
+		if (this.blockID.equals(BLOCK2))
+			return 2;
+		if (this.blockID.equals(BLOCK3))
+			return 3;
+		if (this.blockID.equals(BLOCK4))
+			return 4;
+		if (this.blockID.equals(BLOCK5))
+			return 5;
+		if (this.blockID.equals(BLOCK6))
+			return 6;
+		if (this.blockID.equals(BLOCK7))
+			return 7;
+		return 0;
+	}
 
 	private static final List<PieceType> VALUES = Collections.unmodifiableList(Arrays.asList(values()));
 	private static final int SIZE = VALUES.size();

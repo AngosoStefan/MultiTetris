@@ -33,10 +33,21 @@ public class ServerWriterThread implements Runnable, NetworkWriterInterface {
 
 	public void writeSocketOuput() {
 		// On attribue le numero de joueur
-		nm = NetworkMessage.strToNM(String.valueOf(serverId) + ",5");
+		nm = NetworkMessage.strToNM(String.valueOf(serverId) + ",0,0");
 		System.out.println("NetworkMessage Initialise : " + nm.toString());
 		out.println(nm.toString());
 		out.flush();
+		
+		if(serverId == 2) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			// Signal to start
+			out.println("0,9,9");
+			out.flush();
+		}
 
 		while (true) {
 			try {

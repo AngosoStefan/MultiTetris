@@ -32,12 +32,12 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 	}
 
 	public void readSocketInput () {
-		String msg = new String("0,0");
+		String msg = new String("0,0,0");
 		NetworkMessage nm;
 		while(msg != null && !msg.equals("quit")){			// Si le client se deconnecte
 			try {
 				msg = in.readLine();
-				System.out.println("ReadLine : "+ msg);
+				// System.out.println("ReadLine : "+ msg);
 			} catch (IOException e) {
 				System.out.println("System - Probleme de communication Client-Serveur");
 			}
@@ -46,29 +46,6 @@ public class ClientReaderThread implements Runnable, NetworkReaderInterface {
 				receivedMsgList.add(NetworkMessage.strToNM(msg));
 			}
 		}
-//		while(msg != null && !msg.equals("quit")){
-//			
-//			try {
-//				msg = in.readLine();							// On recoit un message brut
-//				System.out.println("GameClient ReaderThread" + msg);
-//				receivedMsgList.add(NetworkMessage.strToNM(msg));	// On le convertit et rajoute dans notre liste
-//				
-//				System.out.println("Mon num�ro de joueur est "+clientId);
-//				try {
-//					Thread.sleep(90000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			} catch (IOException e) {
-//				System.out.println("System - Probleme de communication Client-Serveur");
-//				System.exit(666);
-//			}
-//		}
-	}
-
-	public void handleAction (NetworkMessage nm) {
-		if (nm.getGameCode() == 5)
-			clientId = nm.getPlayerNumber();
 	}
 
 	public void closeStreams(Socket socket, BufferedReader in) throws IOException {
