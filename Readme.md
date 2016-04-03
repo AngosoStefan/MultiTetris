@@ -45,20 +45,9 @@ How to launch start the app into the native shell
 
 	Untick Allocate console
 	
-# Compile and run the client
+# Play
 
-Make sure there is jna-4.2.1.jar as Maven dependency
-By cloning the master branch it's guaranteed 100% error free
-
-Run the External_Console you previously set :
-	pwd
-	/home/X/workspace/MultiTetris/src/main
-
-Play !
-	./Tetris
-	
-	~/.m2/repository/net/java/dev/jna/jna/4.2.1/jna-4.2.1.jar
-If the jar isn't at this location localy on your computer find it and replace this path with yours
+Play with z q d key and press p for exit current game to return to menu 
 
 *	SERVER DEV MODE
 
