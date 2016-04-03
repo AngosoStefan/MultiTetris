@@ -12,11 +12,11 @@ Possibility modify this configuration by hand currently
 
 # DO NOT COMPILE INTO EMBEDDED IDE CONSOLE
 
-git clone git@github.com:AngosoStefan/MultiTetris.git
-cd MultiTetris
-mvn clean install
-cd src/main
-./Tetris
+git clone git@github.com:AngosoStefan/MultiTetris.git;
+cd MultiTetris;
+mvn clean install;
+cd src/main;
+./Tetris;
 
 	OR
 
