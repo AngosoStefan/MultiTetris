@@ -50,7 +50,16 @@ Correct implementation of ArrayBlockingQueue<NetworkMessage>
 ## Architecture
 
 MVC
+Controlleur :
+Tetris, menu controlleur globale, responsable du déclanchement du jeu
 
 ## Design Pattern / SOLID
 
 Chacunes classes ont leurs propres responsabilitées.
+Utilisation d'abstraction, héritage :
+Game class mère de SoloGame et MultiGame
+Le jeu en lui même doit implémenter certains attributs et certaines méthodes.
+Dès lors que des ajouts sont nécessaires c'est aux classes filles de les implémentés.
+
+Area -> Gestion de la matrice invisible permettant de faire fonctionné les règles du jeu
+Piece -> Gestion des pièces
