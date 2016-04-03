@@ -45,7 +45,6 @@ Not working. But you should be in MultiTetris/src/main
 ./GameServer
 ./Tetris
 ./Tetris
-./Tetris
 ```
 and start MultiPlayer Game on both "./Tetris"
 Correct implementation of ArrayBlockingQueue<NetworkMessage>
