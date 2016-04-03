@@ -9,32 +9,37 @@ public class NetworkMessageTest {
 	@Test
 	public void shouldConvertStringToNetworkMessage() {
 
-		final int playerNumber = 1;
-		final int gameCode = 10;
+		final int playerId = 1;
+		final int actionCode = 2;
+		final int subActionCode = 5;
 		
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(playerNumber);
+		sb.append(playerId);
 		sb.append(",");
-		sb.append(gameCode);
+		sb.append(actionCode);
+		sb.append(",");
+		sb.append(subActionCode);
 
 		String str = sb.toString();
 		
 		NetworkMessage nm = NetworkMessage.strToNM(str);
 		
-		assertEquals(nm.getPlayerNumber(),1);
-		assertEquals(nm.getGameCode(),10);
+		assertEquals(nm.getPlayerId(),1);
+		assertEquals(nm.getActionCode(),2);
+		assertEquals(nm.getSubActionCode(),5);
 	}
 	
 	@Test
 	public void shouldConvertNetworkMessageToString() {
 
-		final int playerNumber = 1;
-		final int gameCode = 10;
+		final int playerId = 1;
+		final int actionCode = 2;
+		final int subActionCode = 5;
 		
-		String str = new String("1,10");
+		String str = new String("1,2,5");
 		
-		NetworkMessage nm = new NetworkMessage(playerNumber,gameCode);
+		NetworkMessage nm = new NetworkMessage(playerId,actionCode,subActionCode);
 		
 		assertEquals(str,nm.toString());
 		
