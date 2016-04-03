@@ -3,6 +3,7 @@ Guidis Antoine
 
 ## FEATURES
 
+- En Console & Mode RAW :white_check_mark:
 - Menu  :white_check_mark:
 - Solo mode  :white_check_mark:
 - Special character  :white_check_mark:
@@ -60,6 +61,10 @@ Utilisation d'abstraction, héritage :
 Game class mère de SoloGame et MultiGame
 Le jeu en lui même doit implémenter certains attributs et certaines méthodes.
 Dès lors que des ajouts sont nécessaires c'est aux classes filles de les implémentés.
+
+Pattern Servant sur la Vue Console permettant de gérer en interne le visuel (ajout/supression/clean/afficher) utilisé dans les controlleurs.
+Pattern Façade sur le Controlleur Tetris, s'occupe du Menu et du lancement des Threads responsables du Multi/Solo mode
+
 
 Area -> Gestion de la matrice invisible permettant de faire fonctionné les règles du jeu
 Piece -> Gestion des pièces
