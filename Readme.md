@@ -40,12 +40,14 @@ Play with  z q d key and press p for exit current game to return to menu
 
 ## SERVER DEV MODE
 
-Not working.
-But you should be in MultiTetris/src/main
+Not working. But you should be in MultiTetris/src/main
+```
 ./GameServer
 ./Tetris
 ./Tetris
-And start MultiPlayer Game on both "./Tetris"
+./Tetris
+```
+and start MultiPlayer Game on both "./Tetris"
 Correct implementation of ArrayBlockingQueue<NetworkMessage>
 
 ## Architecture
