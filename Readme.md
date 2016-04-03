@@ -22,7 +22,7 @@ The 'screen' MUST be composed of a 25 rows by 80 columns matrix of character loc
 Manually check it into your shell settings.
 Without this configuration the gotoxy() goes wrong.
 
-Possibility to modify this configuration by hand
+Possibility to modify this configuration manually
 
 * DO NOT COMPILE INTO EMBEDDED IDE CONSOLE
 
@@ -52,6 +52,7 @@ Correct implementation of ArrayBlockingQueue<NetworkMessage>
 ## Architecture
 
 MVC
+
 Controlleur :
 Tetris, menu controlleur global, est responsable du déclenchement du jeu
 
@@ -61,7 +62,7 @@ Chacune des classes ont leurs propres responsabilités.
 Utilisation d'abstraction, héritage :
 Game class mère de SoloGame et MultiGame
 
-Le jeu en lui même doit implémenter certains attributs et certaines méthodes.
+Le jeu en lui-même doit implémenter certains attributs et certaines méthodes.
 Dès lors que des ajouts sont nécessaires c'est aux classes filles de les implémenter.
 
 Pattern Servant sur la Vue Console permettant de gérer en interne le visuel (ajout/supression/clean/afficher) utilisé dans les controlleurs.
