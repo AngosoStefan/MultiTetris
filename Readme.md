@@ -66,8 +66,10 @@ Le jeu en lui-même doit implémenter certains attributs et certaines méthodes.
 Dès lors que des ajouts sont nécessaires c'est aux classes filles de les implémenter.
 
 Pattern Servant sur la Vue Console permettant de gérer en interne le visuel (ajout/supression/clean/afficher) utilisé dans les controlleurs.
+
 Pattern Façade sur le Controlleur Tetris, s'occupe du Menu et du lancement des Threads responsables du Multi/Solo mode
-On aurait pu utiliser un design Pattern MalusFactory renvoyant directement des instances de NetworkMessage avec les bonnes caractéristiques.
+
+On aurait pu utiliser un design Pattern Factory renvoyant directement des instances de NetworkMessage avec les bonnes caractéristiques de malus (voir Network ci-dessous).
 
 Area -> Gestion de la matrice invisible permettant de faire fonctionner les règles du jeu
 Piece -> Gestion des pièces
@@ -80,9 +82,11 @@ https://drive.google.com/open?id=0B4XkmD7mPURnbkYxYlI2RFlRTzQ
 
 On trouve les packages network.gameclient et network.gameserver pour la gestions des multiples clients et de l'unique server.
 Chaque client a un thread d'écoute et un thread d'écriture, de même pour le serveur.
+Des blockingqueue permettent de stocker les divers messages échangés.
 
 Le package communication contient les interfaces pour les threads que nous venons de présenter, ainsi que des méthodes de fermeture des flux.
 
 Le package messages contient les types de messages qui sont échangés : NetworkMessage.
+
 D'après notre protocole, on enverra (nom du joueur, code général, sous code).
 Par exemple, (J1,malus,slow) ou (J2,game,win).
