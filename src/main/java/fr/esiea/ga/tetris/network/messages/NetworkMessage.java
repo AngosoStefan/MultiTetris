@@ -2,7 +2,7 @@ package fr.esiea.ga.tetris.network.messages;
 
 public class NetworkMessage {
 
-	private int playerNumber;	// Numéro de joueur
+	private int playerNumber;	// Numero de joueur
 	private int gameCode;		// Code de jeu : malus, partie perdue...
 
 	public NetworkMessage(int playerNumber, int gameCode) {
@@ -48,7 +48,7 @@ public class NetworkMessage {
 		int playerCode = intArray[0];
 		int gameCode = intArray[1];
 				
-		NetworkMessage nm = new NetworkMessage(playerCode,gameCode);	// Je crée le networkMessage correspondant
+		NetworkMessage nm = new NetworkMessage(playerCode,gameCode);	// Je cree le networkMessage correspondant
 
 		return nm;
 	}

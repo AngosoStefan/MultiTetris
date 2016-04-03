@@ -16,36 +16,47 @@ public class ServerWriterThread implements Runnable, NetworkWriterInterface {
 	private NetworkMessage nm;
 	private int serverId;
 
-	public ServerWriterThread (Socket socket, PrintWriter out, ArrayBlockingQueue<NetworkMessage> sharedMsgList, int serverId) {
+	public ServerWriterThread(Socket socket, PrintWriter out, ArrayBlockingQueue<NetworkMessage> sharedMsgList,
+			int serverId) {
 		this.socket = socket;
 		this.out = out;
 		this.sharedMsgList = sharedMsgList;
 		this.serverId = serverId;
 	}
 
-
 	public void run() {
 		writeSocketOuput();
-		System.out.println("Tout est fermé avant");
-		WriterCloser.closeStreams(socket,out);
-		System.out.println("Tout est fermé");
+		System.out.println("Tout est ferme avant");
+		WriterCloser.closeStreams(socket, out);
+		System.out.println("Tout est ferme");
 	}
 
-
 	public void writeSocketOuput() {
-		
-		nm = NetworkMessage.strToNM(String.valueOf(serverId)+",5");		// On attribue le numéro de joueur
-		out.println(nm.toString());			
+		// On attribue le numero de joueur
+		nm = NetworkMessage.strToNM(String.valueOf(serverId) + ",5");
+		System.out.println("NetworkMessage Initialise : " + nm.toString());
+		out.println(nm.toString());
 		out.flush();
-		
-		while(true){
+
+		while (true) {
 			try {
-				nm = sharedMsgList.take();								// Prend les messages de la liste
+				Thread.sleep(225);
 			} catch (InterruptedException e) {
-				System.out.println("System - Problème d'acquisition du message réseau");
+				e.printStackTrace();
 			}
-			out.println(nm.toString());									// Les envoie à tout le monde
-			out.flush();
+			System.out.println("SERVER_sharedMsgList SIZE : " + String.valueOf(sharedMsgList.size()));
+			if (!sharedMsgList.isEmpty()) {
+				try {
+					nm = sharedMsgList.take(); // Prend les messages de la liste
+					System.out.println("J'ai pris le message suivant QUE J'ENVOIE : " + nm.toString());
+					out.println(nm.toString()); // Les envoie a tout le monde
+					out.flush();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					System.out.println("System - Probleme d'acquisition du message reseau");
+				}
+			}
 		}
 	}
 }
