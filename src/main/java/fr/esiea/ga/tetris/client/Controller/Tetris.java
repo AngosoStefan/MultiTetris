@@ -20,11 +20,11 @@ public class Tetris implements ConstantInput, ConstantChar {
 
 	public static void main(String[] args) {
 
-		// Menu.printLogo(c);
-		// c.putStringAt("Press Enter", 12, 31);
-		// c.printScreen(true);
-		// pressEnter(true);
-		// c.clearScreen();
+		Menu.printLogo(c);
+		c.putStringAt("Press Enter", 12, 31);
+		c.printScreen(true);
+		pressEnter(true);
+		c.clearScreen();
 
 		/********
 		 * MENU *
