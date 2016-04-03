@@ -1,6 +1,20 @@
-*	CLIENT DEV MODE
+Angoso Stefan
+Guidis Antoine
 
-# SET SHELL SCREEN RESOLUTION 
+# FEATURES
+
+Menu
+Solo mode
+Special character
+Time
+Rotation
+
+Client - Server communication OK
+Implementation into Multi mode NON OK
+
+# CLIENT DEV MODE
+
+* SET SHELL SCREEN RESOLUTION 
 
 Right click > Profile > Profile Preference
 The have a better experience, set the Font to : FreeMono 12
@@ -10,15 +24,15 @@ Without this configuration the gotoxy() goes wrong.
 
 Possibility modify this configuration by hand currently
 
-# DO NOT COMPILE INTO EMBEDDED IDE CONSOLE
+* DO NOT COMPILE INTO EMBEDDED IDE CONSOLE
 
-git clone git@github.com:AngosoStefan/MultiTetris.git;
-cd MultiTetris;
-mvn clean install;
-cd src/main;
-./Tetris;
+	git clone git@github.com:AngosoStefan/MultiTetris.git
+	cd MultiTetris
+	mvn clean install
+	cd src/main
+	./Tetris
 
-	OR
+OR
 
 Import Maven Project
 
@@ -27,7 +41,7 @@ In other word you will be force to press enter at each input.
 
 How to launch start the app into the native shell
 
-# External Tools Configuration
+* External Tools Configuration
 
 	# Main
 	
@@ -45,11 +59,11 @@ How to launch start the app into the native shell
 
 	Untick Allocate console
 	
-# Play
+* Play
 
 Play with z q d key and press p for exit current game to return to menu 
 
-*	SERVER DEV MODE
+# SERVER DEV MODE
 
 Not working.
 But you should be in MultiTetris/src/main
